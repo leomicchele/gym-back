@@ -14,15 +14,18 @@ async function getUsuarios(req, res) {
          Usuario.countDocuments({estado: true}), // Cuenta a los que estan dados de alta
          Usuario.find({estado: true}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
       ]);
+
+      res.status(200).json({
+         Total_Usuarios: respuesta[0],
+         Usuarios: respuesta[1]
+      })
+
    } catch (error) {
       console.log('La peticion no se realizo')
    }  
    
    
-   res.status(200).json({
-      Total_Usuarios: respuesta[0],
-      Usuarios: respuesta[1]
-   })
+   
 
 }
 
