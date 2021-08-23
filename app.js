@@ -3,10 +3,14 @@ const express = require('express');
 const cors = require('cors');
 
 const routesUsuarios = require('./routes/usuarios')
+const {conectandoDB} = require('./db/config')
 
 // Variables
 const app = express();
 const port = process.env.PORT
+
+// Conectando a DB
+conectandoDB();
 
 // Meddleware
 app.use(cors());

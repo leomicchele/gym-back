@@ -17,9 +17,8 @@ body {
    margin-top: 50px;
 }
 
-.container_login {
+.container {
    width: 90%;
-   max-width: 400px;
    margin: 0 auto;
    padding: 40px;
    display: flex;
@@ -31,8 +30,21 @@ body {
    box-shadow: 1px 0px 9px 1px rgba(0,0,0,0.4);
 }
 
-.container_login input {
-   margin-bottom: 20px;
+.container_login {
+   max-width: 400px;
+}
+
+.container_register {
+   max-width: 700px;
+}
+
+.container-title {
+   margin-bottom: 30px;
+   font-size: 2.3rem;
+}
+
+input {
+   margin-bottom: 30px;
    height: 45px;
    padding: 7px 20px;
 }
@@ -48,24 +60,48 @@ body {
    outline-color: #00b241;
 } 
 
-.input-boton {
-   
+.input-texto::placeholder {
+   font-size: 1.0rem;
+   font-style: italic;
+}
+
+.input-boton {   
    font-size: 1.4rem;
    color: white;
    background-color: #00b241;
    border: none;
    cursor: pointer;
    font-weight: 500;
-   letter-spacing: 0.15rem;
+   letter-spacing: 0.10rem;
+}
+.enviar{
+   margin: 0;
 }
 
 .container_login a {
    color: #002ab2;
    text-decoration: none;
    font-size: 0.9rem;
-   text-transform: uppercase;
 }
 
 .container_login a:hover {
    text-decoration: underline;
+}
+
+.formulario__grupo{
+   display: flex;
+   justify-content: space-evenly;
+}
+
+.grupo__input {
+   display: flex;
+   flex-direction: column;
+}
+
+label {
+   font-size: 1.0rem;
+   font-weight: 600;
+   text-align: left;
+   margin-bottom: 5px;
+
 }
