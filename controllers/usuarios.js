@@ -9,10 +9,14 @@ async function getUsuarios(req, res) {
    const { limite, desde } = req.query;
 
 
-   const respuesta = await Promise.all([
-      Usuario.countDocuments({estado: true}), // Cuenta a los que estan dados de alta
-      Usuario.find({estado: true}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
-   ]);
+   try {
+      const respuesta = await Promise.all([
+         Usuario.countDocuments({estado: true}), // Cuenta a los que estan dados de alta
+         Usuario.find({estado: true}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+      ]);
+   } catch (error) {
+      console.log('La peticion no se realizo')
+   }  
    
    
    res.status(200).json({
