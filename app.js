@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 
 const routesUsuarios = require('./routes/usuarios')
+const routesAuth = require('./routes/auth')
 const {conectandoDB} = require('./db/config')
 
 // Variables
@@ -19,6 +20,7 @@ app.use(express.static('public'));
 
 // Rutas
 app.use('/api/usuarios', routesUsuarios)
+app.use('/api/auth', routesAuth)
 
 
 app.listen(port, () => {

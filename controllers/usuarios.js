@@ -8,7 +8,6 @@ async function getUsuarios(req, res) {
 
    const { limite, desde } = req.query;
 
-
    try {
       const respuesta = await Promise.all([
          Usuario.countDocuments({estado: true}), // Cuenta a los que estan dados de alta
@@ -23,10 +22,6 @@ async function getUsuarios(req, res) {
    } catch (error) {
       console.log('La peticion no se realizo')
    }  
-   
-   
-   
-
 }
 
 // CREAR USUARIO
@@ -44,14 +39,13 @@ async function createUsuario(req, res) {
 
    // Regresa una respuesta al cliente
    res.status(201).json({
-     message: "Usuario Creado",
+     message: "Usuario Creado",     
      usuario_Resgistrado: {
        nombre: usuarioNuevo.nombre,
        email: usuarioNuevo.email,
        telefono: usuarioNuevo.telefono,
      }
    });
-
 }
 
 // ACTUALIZAR USUARIO
@@ -60,13 +54,13 @@ async function updateUsuario(req, res) {
    const id = req.params.id
    const {email, google, password, ...resto} = req.body
 
+   // Actualiza todo menos email, google y password
    const usuarioUpdate = await Usuario.findOneAndUpdate({_id: id}, resto)
 
    res.status(201).json({
       msg: 'Usuario actualizado',
       usuarioUpdate
    })
-
 }
 
 // ELIMINAR USUARIO
@@ -75,12 +69,11 @@ async function deleteUsuario(req, res) {
    const id = req.params.id
 
    const usuarioBaja = await Usuario.findByIdAndUpdate(id, {estado: false})
-
+   
    res.status(201).json({
       msg: 'Usuario dado de baja',
-      Usuario: usuarioBaja
+      Usuario: usuarioBaja,
    })
-
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 const {validationResult} = require('express-validator')
 
-
+// Middleware requerido para recibir los errrores de los "Check()"
 function validarcampos(req, res, next) {
    
    const errorValidacion = validationResult(req)
