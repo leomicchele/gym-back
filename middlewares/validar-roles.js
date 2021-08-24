@@ -2,7 +2,7 @@
 
 function validarRoles(req, res, next) {
 
-   const rol = req.usuario.id
+   const rol = req.usuario.rol
    const nombre = req.usuario.nombre
 
    // Verifica que el usuario tenga permiso de administrador
