@@ -44,25 +44,49 @@ body {
 }
 
 input {
-   margin-bottom: 30px;
+   /* margin-top: 30px; */
    height: 45px;
    padding: 7px 20px;
 }
 
+.container_input-text {
+   height: 75px;
+   margin-bottom: 15px;
+}
+
 .input-texto {
+   width: 100%;
    font-size: 1.2rem;
    border: none;
    background-color: rgb(228, 228, 228);
 }
-
-.input-texto:focus-visible {
-   /* border-color: tomato; */
-   outline-color: #00b241;
+.input-texto:focus-visible {   
+   /* border: #0088b2 2px solid; */
+   border-radius: 5px;
+   outline: #0088b2 2px solid;
 } 
+.input-correcto {
+   /* border: #00b241 2px solid; */
+   outline: #00b241 2px solid;
+   border-radius: 5px;
+}
+.input-incorrecto {
+   /* border: #b22a00 2px solid; */
+   outline: #b22a00 2px solid;
+   border-radius: 5px;
+}
 
 .input-texto::placeholder {
    font-size: 1.0rem;
    font-style: italic;
+}
+
+.parrafo-error {
+   color: #b22a00;
+   font-size: 1.0rem;
+   text-align: start;
+   margin-top: 7px;
+   display: none;
 }
 
 .input-boton {   
@@ -73,7 +97,14 @@ input {
    cursor: pointer;
    font-weight: 500;
    letter-spacing: 0.10rem;
+   margin-bottom: 30px;
+   transition: all ease 0.5s;
 }
+.input-boton:hover {
+   background-color: #009ab2;
+}
+
+/* ---------------------- REGISTRO ---------------------- */
 .enviar{
    margin: 0;
 }
@@ -96,6 +127,10 @@ input {
 .grupo__input {
    display: flex;
    flex-direction: column;
+   justify-content: start;
+   height: 110px;
+   /* margin-bottom: 15px; */
+   padding: 0 5px;
 }
 
 label {
@@ -103,5 +138,45 @@ label {
    font-weight: 600;
    text-align: left;
    margin-bottom: 5px;
+}
 
+.grupo__input-checkbox {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   padding-left: 20px;
+   height: 15px;
+   margin-bottom: 25px;
+}
+
+.label-ckeckbox {
+   margin: 0;
+}
+
+
+/* ---------------------- PETICIONES ---------------------- */
+.container-peticion {
+   max-width: 400px;
+   margin-top: 20px;
+   padding: 15px;
+   display: none;
+}
+.peticion-parrafo {
+   font-size: 1.3rem;
+}
+
+   /* ERROR DE PETICION */
+.parrafo-peticion-error {
+   color: #8b2000;
+}
+.container-peticion-error {
+   background-color: #ffcbbb;
+}
+
+  /* PETICION CORRECTA */
+.parrafo-peticion-succes {
+   color: #158b00;
+}
+.container-peticion-succes {
+   background-color: #bfffbb;
 }

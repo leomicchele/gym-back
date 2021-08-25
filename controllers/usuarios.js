@@ -39,7 +39,7 @@ async function createUsuario(req, res) {
 
    // Regresa una respuesta al cliente
    res.status(201).json({
-     message: "Usuario Creado",     
+     msg: "Usuario Registrado",     
      usuario_Resgistrado: {
        nombre: usuarioNuevo.nombre,
        email: usuarioNuevo.email,

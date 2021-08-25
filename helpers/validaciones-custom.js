@@ -4,7 +4,7 @@ async function verificarEmailRegitro(email) {
    const emailExiste = await Usuario.findOne({ email: email });
    
    if (emailExiste) {
-     throw new Error('El Email existe')
+     throw new Error('El Email ya existe')
    }
 };
 

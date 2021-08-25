@@ -18,37 +18,50 @@
             <div class="formulario__grupo">
                <div class="grupo__input">
                   <label for="nombre">Nombre</label>
-                  <input type="text" class="input-texto" placeholder="Juan"  id="nombre">
+                  <input type="text" class="input-texto" placeholder="Ej: Juan"  id="nombre">
+                  <p class="parrafo-error" id="parrafo-nombre-error">* Debe escribir un nombre</p>
                </div>
                <div class="grupo__input">
                   <label for="apellido">Apellido</label>
-                  <input type="text" class="input-texto" placeholder="Gomez" id="apellido">
+                  <input type="text" class="input-texto" placeholder="Ej: Gomez" id="apellido">
+                  <p class="parrafo-error" id="parrafo-apellido-error">* Debe escribir un apellido</p>
                </div>
             </div>
             <div class="formulario__grupo">
                <div class="grupo__input">
                   <label for="password">Password</label>
                   <input type="password" class="input-texto" placeholder="Contraseña" id="password">
+                  <p class="parrafo-error" id="parrafo-passwoord-error">* Debe tener entre 6 a 14 caracteres</p>
                </div>
                <div class="grupo__input"> 
                   <label for="repeat-password">Repetir Password</label>
                   <input type="password" class="input-texto" placeholder="Repetir Contraseña" id="repeat-password">
+                  <p class="parrafo-error" id="parrafo-repeat-passwoord-error">* La contraseña no coincide</p>
                </div>
             </div>
             <div class="formulario__grupo">
                <div class="grupo__input">
                   <label for="email">Correo Electrónico</label>
-                  <input type="text" class="input-texto" placeholder="juan@correo.com" id="email">
+                  <input type="text" class="input-texto" placeholder="Ej: juan@correo.com" id="email">
+                  <p class="parrafo-error" id="parrafo-email-error">* Debe ser un email válido</p>
                </div>
                <div class="grupo__input">
                   <label for="telefono">Teléfono</label>
-                  <input type="text" class="input-texto" placeholder="3402548699" id="telefono">
+                  <input type="text" class="input-texto" placeholder="Ej: 3402548699" id="telefono">
+                  <p class="parrafo-error" id="parrafo-telefono-error">* Debe ser un telefono válido</p>
                </div>
             </div>
-            <input type="submit" value="ENVIAR" class="input-boton enviar">
+            <div class="grupo__input-checkbox">
+               <input type="checkbox" name="" id="checkbox"> <label for="checkbox" class="label-ckeckbox">Acepto los terminos y condiciones</label>
+               <p class="parrafo-error" id="parrafo-terminos-error">* Debe aceptar los terminos</p>
+            </div>
+            <input type="submit" value="ENVIAR" class="input-boton enviar" id="boton-enviar">
          </form>      
       </div>
    </section>
-
+   <div class="container container-peticion" id="container-peticion">
+      <p id="peticion-parrafo" class="peticion-parrafo">esto es un aprueba</p>
+   </div>
+   <script src="../js/registro.js" type="module"></script>
 </body>
 </html>
