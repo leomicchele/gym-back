@@ -79,34 +79,30 @@ async function evniarFormulario (e) {
          $containerPeticion.classList.remove("parrafo-peticion-error");
 
 
-         $nombre.value = '';
-         $apellido.value = '';
-         $password.value = '';
-         $email.value = '';
-         $telefono.value = '';
-         $repeatPassword.value = '';
-         $checkbox.value = '';
+         // $nombre.value = '';
+         // $apellido.value = '';
+         // $password.value = '';
+         // $email.value = '';
+         // $telefono.value = '';
+         // $repeatPassword.value = '';
+         // $checkbox.value = '';
          
       }
 
-      $nombre.disabled = false;
-      $apellido.disabled = false;
-      $password.disabled = false;
-      $email.disabled = false;
-      $telefono.disabled = false;
-      $repeatPassword.disabled = false;
-      $checkbox.disabled = false;
+      // $nombre.disabled = false;
+      // $apellido.disabled = false;
+      // $password.disabled = false;
+      // $email.disabled = false;
+      // $telefono.disabled = false;
+      // $repeatPassword.disabled = false;
+      // $checkbox.disabled = false;
 
-      // ocultaMensaje();
+      setTimeout(() => {
+         window.location.href = "/"         
+      }, 3000);
    }
 
 };
-
-function ocultaMensaje() {
-   setTimeout(() => {
-     $containerPeticion.style = "transform: scale(0)"; 
-   }, 4000);
-}
 
 export {
    evniarFormulario

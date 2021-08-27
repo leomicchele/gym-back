@@ -206,8 +206,8 @@ label {
 }
 
 /* clase especial de google */
-.abcRioButton { 
-   background-color: rgb(66 133 244);
+.abcRioButton, .abcRioButtonBlue { 
+   width: 320px;   
 }
 
 /* ---------------------- LOADING ---------------------- */
