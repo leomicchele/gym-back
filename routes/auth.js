@@ -1,7 +1,7 @@
 const routes = require('express').Router();
 const {check} = require('express-validator')
 
-const { login } = require('../controllers/auth');
+const { login, loginGoogle } = require('../controllers/auth');
 const { verificarEmailLogin } = require('../helpers/validaciones-custom');
 const { validarcampos } = require('../middlewares/validar-campos');
 
@@ -13,8 +13,11 @@ routes.post('/login',
    validarcampos
 , login)
 
-
-
+// LOGUEA USUARIO CON GOOGLE
+routes.post('/google',
+   check('id_token').notEmpty().withMessage('El token de Google no es valido'),
+   validarcampos
+, loginGoogle)
 
 
 module.exports = routes

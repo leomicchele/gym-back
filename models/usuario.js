@@ -7,7 +7,10 @@ const UsuarioSchema = new mongoose.Schema({
    password: String,
    img: String,
    telefono: Number,
-   rol: String,
+   rol: {
+      type: String,
+      default: 'USER_ROL'
+   },
    estado: {
       type: Boolean,
       default: true

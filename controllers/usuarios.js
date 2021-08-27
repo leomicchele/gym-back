@@ -35,7 +35,7 @@ async function createUsuario(req, res) {
    usuarioNuevo.password = hash;
 
    // Guardar el usuario nuevo en base de datos
-   usuarioNuevo.save()
+   await usuarioNuevo.save()
 
    // Regresa una respuesta al cliente
    res.status(201).json({

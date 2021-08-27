@@ -16,8 +16,8 @@ escuchandoEventos();
 function escuchandoEventos() {
   $username.addEventListener("blur", verificacionEmail);
   $password.addEventListener("blur", verificacionPassword);
-  $login.addEventListener('click', submitLogin)
-  $login.addEventListener('submit', submitLogin)
+  $login.addEventListener('click', submitLogin);
+  $login.addEventListener('submit', submitLogin);
 };
 
 

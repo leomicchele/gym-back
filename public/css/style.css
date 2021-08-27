@@ -23,7 +23,7 @@ body {
    padding: 40px;
    display: flex;
    flex-direction: column;
-   justify-content: center;
+   justify-content: start;
    align-content: center;
    background-color: rgb(255, 255, 255);
    text-align: center;
@@ -32,6 +32,11 @@ body {
 
 .container_login {
    max-width: 400px;
+   transition: height 0.5s ease;
+}
+
+.container_login a:hover {
+   text-decoration: underline;
 }
 
 .container_register {
@@ -97,11 +102,15 @@ input {
    cursor: pointer;
    font-weight: 500;
    letter-spacing: 0.10rem;
-   margin-bottom: 30px;
+   margin-bottom: 20px;
    transition: all ease 0.5s;
 }
 .input-boton:hover {
    background-color: #009ab2;
+}
+
+.container-crea_cuenta {
+   margin-top: 20px;
 }
 
 /* ---------------------- REGISTRO ---------------------- */
@@ -113,10 +122,6 @@ input {
    color: #002ab2;
    text-decoration: none;
    font-size: 0.9rem;
-}
-
-.container_login a:hover {
-   text-decoration: underline;
 }
 
 .formulario__grupo{
@@ -138,6 +143,7 @@ label {
    font-weight: 600;
    text-align: left;
    margin-bottom: 5px;
+   color: rgb(97, 97, 97);
 }
 
 .grupo__input-checkbox {
@@ -157,12 +163,19 @@ label {
 /* ---------------------- PETICIONES ---------------------- */
 .container-peticion {
    max-width: 400px;
-   margin-top: 20px;
-   padding: 15px;
+   width: 100%;
+   /* margin-top: 20px; */
+   padding: 15px;   
+   transition: all ease 0.3s;
+   transform: scale(0);
    display: none;
+   margin: 20px auto;
+   display: flex;
+   justify-content: center;
 }
 .peticion-parrafo {
-   font-size: 1.3rem;
+   font-size: 1.0rem;
+   text-align: center;
 }
 
    /* ERROR DE PETICION */
@@ -179,4 +192,36 @@ label {
 }
 .container-peticion-succes {
    background-color: #bfffbb;
+}
+
+/* ---------------------- GOOGLE ---------------------- */
+.container-google {
+   margin: 20px 0;
+   margin-top: 20px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 15px;
+}
+
+/* clase especial de google */
+.abcRioButton { 
+   background-color: rgb(66 133 244);
+}
+
+/* ---------------------- LOADING ---------------------- */
+.container-loading {
+   /* margin: auto; */
+   display: flex;
+   justify-content: center;
+   position: absolute;
+   left: calc(50% - 40px);
+   margin-top: 25px;
+}
+
+.container-loading img {
+   width: 80px;
+   transition: all ease 0.3s;
+   transform: scale(0);
 }

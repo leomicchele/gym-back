@@ -22,6 +22,7 @@ const $checkboxError = document.querySelector('#parrafo-terminos-error');
 
 const $parrafoPeticion = document.querySelector('#peticion-parrafo');
 const $containerPeticion = document.querySelector('#container-peticion');
+const $loading = document.querySelector("#loading");
 
 const expresiones = {
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
@@ -53,7 +54,8 @@ export {
    $login,
    $parrafoUserError,
    $parrafoPasswordError,
-   expresiones
+   expresiones,
+   $loading,
 }
 
 // export * from './variables' 
