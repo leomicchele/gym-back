@@ -4,13 +4,20 @@
    padding: 0;
 }
 
+:root {
+   --green-primary: #69be4b;
+   --green-secondary:#00b241;
+   --blue-primary: #0088b2;
+   --red-primary: #b22a00;
+}
+
 html {
-   font-size: 62.5;
+   /* font-size: 62.5; */
    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-   background-color: #69be4b;
+   background-color: var(--blue-primary);
 }
 
 .section_login {
@@ -66,18 +73,15 @@ input {
    background-color: rgb(228, 228, 228);
 }
 .input-texto:focus-visible {   
-   /* border: #0088b2 2px solid; */
    border-radius: 5px;
    outline: #0088b2 2px solid;
 } 
 .input-correcto {
-   /* border: #00b241 2px solid; */
-   outline: #00b241 2px solid;
+   outline: var(--green-secondary) 2px solid;
    border-radius: 5px;
 }
 .input-incorrecto {
-   /* border: #b22a00 2px solid; */
-   outline: #b22a00 2px solid;
+   outline: var(--red-primary) 2px solid;
    border-radius: 5px;
 }
 
@@ -87,7 +91,7 @@ input {
 }
 
 .parrafo-error {
-   color: #b22a00;
+   color: var(--red-primary);
    font-size: 1.0rem;
    text-align: start;
    margin-top: 7px;
@@ -95,18 +99,45 @@ input {
 }
 
 .input-boton {   
+   height: 50px;
    font-size: 1.4rem;
    color: white;
-   background-color: #00b241;
+   background-color: var(--green-secondary);
    border: none;
    cursor: pointer;
    font-weight: 500;
-   letter-spacing: 0.10rem;
+   letter-spacing: 0.05rem;
    margin-bottom: 20px;
    transition: all ease 0.5s;
 }
 .input-boton:hover {
-   background-color: #009ab2;
+   background-color: var(--blue-primary);
+}
+
+
+.or {   
+   position: relative;
+   z-index: 0;
+}
+
+.or::before {
+   width: 100%;
+   max-width: 320px;
+   display: inline-block;
+   position: absolute;
+   height: 0px;
+   content: "";
+   border: 1px solid rgb(184 196 194);
+   z-index: 1;
+   left: 0%;
+   bottom: 50%;
+}
+
+.or span {
+   position: relative;
+   background-color: #ffffff;
+   z-index: 2;
+   padding: 0 5px;
 }
 
 .container-crea_cuenta {
@@ -159,6 +190,43 @@ label {
    margin: 0;
 }
 
+
+.container_botones-registro {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.container-boton-volver {
+   width: 230px;
+   height: 50px;
+   background-color: rgb(155, 155, 155);
+   /* background-color: var(--blue-primary); */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   transition: all 0.5s ease;
+}
+
+.container-boton-volver:hover {
+   background-color: var(--green-secondary);
+}
+
+.container-boton-volver a {
+   width: 100%;
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   text-decoration: none;
+   font-size: 1.4rem;
+   font-weight: 500;
+   color: white;
+   letter-spacing: 0.05rem;
+}
+
+.container-boton-volver img {
+   width: 40px;
+}
 
 /* ---------------------- PETICIONES ---------------------- */
 .container-peticion {
@@ -225,3 +293,36 @@ label {
    transition: all ease 0.3s;
    transform: scale(0);
 }
+
+
+/* ---------------------- MEDIA QUERYS ---------------------- */
+@media (max-width: 400px) {
+   .section_login {
+      margin-top: 20px;
+   }
+   .container {
+      padding: 30px 20px;
+   }
+   .input-texto {
+      font-size: 1.0rem;
+   }
+   .parrafo-error {
+      font-size: 0.9rem;
+   }
+}
+
+
+/* REGISTRO */
+@media (max-width: 690px) {
+   .formulario__grupo {
+      flex-direction: column;
+   }
+}
+@media (max-width: 620px) {
+   .container_botones-registro {
+      flex-direction: column-reverse;
+      gap: 20px;
+   }
+}
+
+

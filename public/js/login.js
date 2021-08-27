@@ -21,14 +21,11 @@ function escuchandoEventos() {
   $login.addEventListener('submit', submitLogin);
 };
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   const $botonGoogleContainer = document.querySelector('.g-signin2')  
-  const $botonGoogle = document.querySelector('.abcRioButton')  
-
-  $botonGoogleContainer.style.transition = 'all ease 0.3s'
+  const $botonGoogle = document.querySelector('.abcRioButton') 
+  
   $botonGoogleContainer.style = 'width: 100%;'
-
-  $botonGoogle.style.transition = 'all ease 0.3s'
   $botonGoogle.style = 'max-width: 320px;'
 })
 

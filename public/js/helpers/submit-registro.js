@@ -15,11 +15,11 @@ import {
    $email,
    $telefono,
    $containerPeticion,
-   $parrafoPeticion,
    $repeatPassword,
    $checkbox,
    $loading
 } from "./variables.js"
+import { mensajeError, mensajeSuccess } from "./mensaje-html.js";
 
 
 
@@ -33,9 +33,6 @@ let datosRegistro = {
 
 async function evniarFormulario (e) {
    e.preventDefault();
-
-   
-
 
    if(verificNombre() && verificApellido() && verificaPasswod() && verificaPassRepetido() && verificaEmail() && verificaTelefono() && verificaTerminos()) {
 
@@ -61,45 +58,14 @@ async function evniarFormulario (e) {
 
       // Habilita el DIV con el mensaje
       $loading.style = "transform: scale(0)";
-      $containerPeticion.style = "transform: scale(1)";
+      // $containerPeticion.style = "transform: scale(1)";
 
       // Si la peticion es 400, evnina el DIV de error, sino envia el DIV de succes
-      if (estado === 400) {
-         $parrafoPeticion.textContent = respuesta.errors[0].msg
-         $parrafoPeticion.classList.add("parrafo-peticion-error");
-         $containerPeticion.classList.add("container-peticion-error");
-         $parrafoPeticion.classList.remove("parrafo-peticion-succes");
-         $containerPeticion.classList.remove("container-peticion-succes");
-         
+      if (estado === 400) {         
+         mensajeError(respuesta.errors[0].msg)         
       } else {
-         $parrafoPeticion.textContent = respuesta.msg;
-         $parrafoPeticion.classList.add("parrafo-peticion-succes");
-         $containerPeticion.classList.add("container-peticion-succes");
-         $parrafoPeticion.classList.remove("parrafo-peticion-error");
-         $containerPeticion.classList.remove("parrafo-peticion-error");
-
-
-         // $nombre.value = '';
-         // $apellido.value = '';
-         // $password.value = '';
-         // $email.value = '';
-         // $telefono.value = '';
-         // $repeatPassword.value = '';
-         // $checkbox.value = '';
-         
+         mensajeSuccess(respuesta.msg)         
       }
-
-      // $nombre.disabled = false;
-      // $apellido.disabled = false;
-      // $password.disabled = false;
-      // $email.disabled = false;
-      // $telefono.disabled = false;
-      // $repeatPassword.disabled = false;
-      // $checkbox.disabled = false;
-
-      setTimeout(() => {
-         window.location.href = "/"         
-      }, 3000);
    }
 
 };
