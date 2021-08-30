@@ -2,8 +2,11 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 
-const routesUsuarios = require('./routes/usuarios')
 const routesAuth = require('./routes/auth')
+const routesBuscar = require('./routes/buscar')
+const routesCategorias = require('./routes/categorias')
+const routesProductos = require('./routes/productos')
+const routesUsuarios = require('./routes/usuarios')
 const {conectandoDB} = require('./db/config')
 
 // Variables
@@ -19,8 +22,11 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Rutas
-app.use('/api/usuarios', routesUsuarios)
-app.use('/api/auth', routesAuth)
+app.use('/api/auth', routesAuth);
+app.use('/api/buscar', routesBuscar);
+app.use('/api/categorias', routesCategorias);
+app.use('/api/productos', routesProductos);
+app.use('/api/usuarios', routesUsuarios);
 
 
 app.listen(port, () => {

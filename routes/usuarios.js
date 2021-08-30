@@ -21,14 +21,14 @@ routes.post('/',
    check('password').isLength({ min: 6 }).withMessage('El password debe tener un minimo de 6 caracteres'),
    check('telefono').matches(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/).withMessage('Debe ser un telefono valido'),
    check('email').custom( (email) => verificarEmailRegitro(email) ), 
-   validarcampos // MiddleWare personalizado
+   validarcampos // MiddleWare personalizado, recibe el error de los check()
 , createUsuario)
 
 // ACTUALIZAR USUARIO
 routes.put('/:id',
    check('id').isMongoId().withMessage('El ID debe ser valido'), 
    check('id').custom( id => verificarExistenciaID(id) ),
-   validarcampos // MiddleWare personalizado
+   validarcampos // MiddleWare personalizado, recibe el error de los check()
 , updateUsuario)
 
 
