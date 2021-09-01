@@ -42,6 +42,7 @@ async function createUsuario(req, res) {
      msg: "Usuario Registrado",     
      usuario_Resgistrado: {
        nombre: usuarioNuevo.nombre,
+       apellido: usuarioNuevo.apellido,
        email: usuarioNuevo.email,
        telefono: usuarioNuevo.telefono,
      }
@@ -55,11 +56,17 @@ async function updateUsuario(req, res) {
    const {email, google, password, ...resto} = req.body
 
    // Actualiza todo menos email, google y password
-   const usuarioUpdate = await Usuario.findOneAndUpdate({_id: id}, resto)
+   const usuarioUpdate = await Usuario.findOneAndUpdate({_id: id}, resto, {new: true})
 
    res.status(201).json({
       msg: 'Usuario actualizado',
-      usuarioUpdate
+      usuarioUpdate: {
+         nombre: usuarioUpdate.nombre,
+         apellido: usuarioUpdate.apellido,
+         email: usuarioUpdate.email,
+         telefono: usuarioUpdate.telefono,
+         google: usuarioUpdate.google,
+      }
    })
 }
 
