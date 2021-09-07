@@ -84,6 +84,14 @@ async function verificaProductoID(id) {
   if(!existeID){
     throw new Error(`El ID --> ${id} <-- no existe`)
   }
+};
+
+async function verificaColeccion(coleccion = '', colecciones = []) {
+  
+  if(!colecciones.includes(coleccion)) {
+
+    throw new Error(`La coleccion -- ${coleccion} --  no existe, ${colecciones}`)
+  }  
 }
 
 module.exports = {
@@ -94,5 +102,6 @@ module.exports = {
    verificarCategoriaID,
    verificaProductoNombre,
    categoriaNombre,
-   verificaProductoID
+   verificaProductoID,
+   verificaColeccion
 }

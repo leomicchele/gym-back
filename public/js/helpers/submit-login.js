@@ -1,4 +1,4 @@
-import { peticionLoginRegistro} from '../ajax.js';
+import { peticionLoginRegistro, peticionRedireccionamiento} from '../ajax.js';
 import {
    verificacionPassword,
    verificacionEmail
@@ -44,13 +44,20 @@ async function submitLogin(event) {
  };
 
  // Si la peticion es 400, muestra elemento de error, sino succes
- function serverResponse(estado, respuesta) {
+ async function serverResponse(estado, respuesta) {
 
    if (estado === 400) {
       mensajeError("El email o la contraseña no son validos"); // muestra elemento HTML      
    } else {
-      console.log(respuesta.token)      
+      console.log(respuesta) 
+      // Guarda en el Storage el token y el id 
+      sessionStorage.setItem('token', respuesta.token)
+      sessionStorage.setItem('id-usuario', respuesta.id)
+
       mensajeSuccess(respuesta.msg); // Muestra elemento HTML
+      
+      await peticionRedireccionamiento(respuesta.token, respuesta.id) // Hace la peticion para entrar al Home
+
    }
  }
 

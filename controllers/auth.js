@@ -21,11 +21,13 @@ async function login(req, res) {
    // Generar un JWT
    const token = await generadorJWT( {id: usuario._id, nombre: usuario.nombre} )
 
+  
    // Enviar respuesta al cliente
    res.json({
       msg: 'Usuario logiado',
-      token: token
-   })
+      token: token,
+      id: usuario._id
+   })  
 };
 
 
@@ -57,6 +59,7 @@ async function loginGoogle(req, res) {
      res.status(201).json({
        msg: "Usuario logiado con GOOGLE",
        token: token,
+       id: usuario._id
      });
 
    } catch (error) { // Si algo del Try falla, lo recibimos aca.

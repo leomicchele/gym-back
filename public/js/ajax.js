@@ -1,4 +1,5 @@
 
+// Envia los datos del usuario logiado
 async function peticionLoginRegistro(usuario, url) {
   let urlPost = url;
   let estado;
@@ -21,4 +22,20 @@ async function peticionLoginRegistro(usuario, url) {
 };
 
 
-export { peticionLoginRegistro}
+async function peticionRedireccionamiento (token, id) {
+  setTimeout(() => {
+    
+    window.location = `${window.location}home/${id}`
+    
+  }, 1000);
+
+  // fetch(`home/${id}`, {
+  //   method: "GET",
+  //   headers: {
+  //     "x-token": token
+  //   }
+  // })
+}
+
+export { peticionLoginRegistro,
+  peticionRedireccionamiento}

@@ -1,0 +1,134 @@
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+:root {
+   --green-primary: #69be4b;
+   --green-secondary:#00b241;
+   --blue-primary: #0088b2;
+   --red-primary: #b22a00;
+}
+
+html {
+   font-size: 62.5%;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+   background-color: var(--blue-primary);
+}
+
+.carga {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   z-index: 3;
+   background-color: rgba(255, 255, 255, 0.733);
+}
+
+.container {   
+   width: 95%;
+   max-width: 400px;
+   margin: 0 auto;
+   margin-top: 50px;
+   background-color: white;
+   padding: 40px 0;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   gap: 20px;
+   box-shadow: 1px 0px 9px 1px rgb(0 0 0 / 40%);
+}
+
+.container_img {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   position: relative;
+}
+
+.img-foto {
+   max-width: 280px;
+   padding: 5px;
+   border: 1px black solid;
+}
+
+.img-loading {
+   display: none;
+   position: absolute;
+   z-index: 2;
+}
+
+.active {
+   display: none;
+   width: 100%;
+   height: 100%;   
+   position: absolute;
+   background-color: #e9e9e9ca;
+   z-index: 1;
+}
+
+.container_datos > h2 {
+   margin-top: 20px;
+}
+
+.container_datos h2:nth-child(1) {
+   font-size:2.5rem;  
+   margin: 0; 
+}
+
+.label-input {
+   position: absolute;
+   top: 3%;
+   left: 86%;
+   width: auto;
+   padding: 5px;
+   background-color: var(--blue-primary);
+   font-size: 1.4rem;
+   cursor: pointer;
+   border-radius: 20%;
+   box-shadow: 2px 2px 5px 0px  rgba(187,187,187,0.75);
+}
+
+input {
+   display: none;
+}
+
+.upload-img {
+   width: 20px;
+}
+
+.container-cerrar-sesion a {
+   text-decoration: none;
+}
+
+
+.input-boton {   
+   width: 95%;
+   max-width: 400px;
+   height: 50px;
+   font-size: 1.4rem;
+   color: white;
+   background-color: var(--red-primary);
+   border: none;
+   cursor: pointer;
+   font-weight: 500;
+   letter-spacing: 0.05rem;   
+   margin: 0 auto;
+   margin-top: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 1.8rem;
+   transition: all ease 0.3s;
+}
+
+.input-boton:hover {
+   background-color: #d14c23;
+}

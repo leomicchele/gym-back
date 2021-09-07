@@ -22,7 +22,10 @@ const productoSchema = Schema({
    categoria: {
       type: Schema.Types.ObjectId,
       ref: 'Categoria'
-   }   
+   },
+   img: {
+      type: String
+   }
 })
 
 const Producto = model('producto', productoSchema)
