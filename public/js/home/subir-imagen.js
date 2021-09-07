@@ -15,7 +15,7 @@ $inputImagen.addEventListener('change', async (event) => {
 
    let estado;
    
-   fetch(`http://localhost:8080/api/uploads/usuarios/${id_usuario}`, {
+   fetch(`${window.location.origin}api/uploads/usuarios/${id_usuario}`, {
       method: 'PUT',
       body: new FormData($formElem)      
    })
