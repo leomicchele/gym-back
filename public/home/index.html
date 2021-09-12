@@ -5,31 +5,30 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Panificadora</title>
-   <link rel="stylesheet" href="/css/style_home.css">
-   <link rel="shortcut icon" href="/assets/bread.png" type="image/x-icon">
+   <link rel="stylesheet" href="../css/style_home.css">
+   <link rel="shortcut icon" href="../assets/bread.png" type="image/x-icon">
+   <script src="../js/home/token-ajax.js"></script>
 </head>
 <body>
-   {{!-- <div class="carga">
-      <img src="" alt="">
-   </div> --}}
+  
    <section class="container">
       <div class="container_img">
 
-         <img class="img-foto" src="{{ img }}" alt="" id="img-foto">
+         <img class="img-foto" src="../assets/no-image.jpg" alt="" id="img-foto">
          <img src="/assets/loading.svg" alt="" class="img-loading" id="loading">
          <div class="active" id="activo"></div>
 
          <form id="formElem">
             <label class="label-input" for="inputArchivo">
                <input type="file" name="archivo" id="inputArchivo">       
-               <img  class="upload-img" src="/assets/upload.png" alt="">               
+               <img  class="upload-img" src="../assets/upload.png" alt="">               
             </label>
          </form>
       </div>
       <div class="container_datos">
-         <h2>{{ nombre }}</h2>
-         <h2>{{ email }}</h2>
-         <h2>{{ telefono }}</h2>         
+         <h2 id="nombre"> Sin Nombre</h2>
+         <h2 id="email">Sin Email</h2>
+         <h2 id="telefono">Sin Telefono</h2>         
       </div>
    </section>
    <section class="container-cerrar-sesion">
@@ -38,8 +37,8 @@
             <p>Cerrar Sesion</p>
          </div>
       </a>      
-      <script src="/js/home/subir-imagen.js"></script>
-      <script src="/js/home/cerrar-sesion.js"></script>
+      <script src="../js/home/subir-imagen.js"></script>
+      <script src="../js/home/cerrar-sesion.js"></script>
    </section>
 </body>
 </html>

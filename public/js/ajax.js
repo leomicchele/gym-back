@@ -22,19 +22,12 @@ async function peticionLoginRegistro(usuario, url) {
 };
 
 
-async function peticionRedireccionamiento (token, id) {
+async function peticionRedireccionamiento () {
   setTimeout(() => {
     
-    window.location = `${window.location}home/${id}`
+    window.location.href = `${window.location.origin}/home`
     
   }, 1000);
-
-  // fetch(`home/${id}`, {
-  //   method: "GET",
-  //   headers: {
-  //     "x-token": token
-  //   }
-  // })
 }
 
 export { peticionLoginRegistro,

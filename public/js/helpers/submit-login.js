@@ -51,12 +51,12 @@ async function submitLogin(event) {
    } else {
       console.log(respuesta) 
       // Guarda en el Storage el token y el id 
-      sessionStorage.setItem('token', respuesta.token)
-      sessionStorage.setItem('id-usuario', respuesta.id)
+      localStorage.setItem('token', respuesta.token)
+      // localStorage.setItem('id-usuario', respuesta.id)
 
       mensajeSuccess(respuesta.msg); // Muestra elemento HTML
       
-      await peticionRedireccionamiento(respuesta.token, respuesta.id) // Hace la peticion para entrar al Home
+      await peticionRedireccionamiento() // Redirecciona al Home
 
    }
  }
