@@ -28,9 +28,9 @@ function onSignIn(googleUser) {
     .then((resp) => resp.json())
     .then((data) => {
       console.log("Recibimos el token\n", data)
-      sessionStorage.setItem('token', data.token)      
-      sessionStorage.setItem('id-usuario', data.id)      
-      window.location.href = `${window.location}home/${data.id}`
+      localStorage.setItem('token', data.token)      
+          
+      window.location.href = `${window.location}home`
 
       })
     .catch((err) => console.log("Error en la peticion", err));

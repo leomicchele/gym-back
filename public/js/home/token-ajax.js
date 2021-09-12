@@ -23,15 +23,26 @@ async function validarJWT() {
 
 function pintarHTML(data) {
    // Referencia HTML
+
+   const $container = document.querySelector('.container')
+   const $containerSesion  = document.querySelector('.container-cerrar-sesion')
+   
    const $imagen = document.querySelector('#img-foto');
    const $nombre = document.querySelector('#nombre');
    const $email = document.querySelector('#email');
    const $telefono = document.querySelector('#telefono');   
+
+   
+
+   $container.style.display = 'flex';
+   $containerSesion.style.display = 'block';
    
    (!data.img) ? $imagen.src = '../../assets/no-image.jpg' : $imagen.src = data.img
    $nombre.innerHTML = `${data.nombre} ${data.apellido}`
    $email.innerHTML = `Email: ${data.email}`
    $telefono.innerHTML = `Telefono: ${data.telefono}`
+
+   
    
 }
 
