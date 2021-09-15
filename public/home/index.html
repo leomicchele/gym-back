@@ -7,11 +7,11 @@
    <title>Panificadora</title>
    <link rel="stylesheet" href="../css/style_home.css">
    <link rel="shortcut icon" href="../assets/bread.png" type="image/x-icon">
-   <script src="../js/home/token-ajax.js"></script>
+   <script src="../js/home/token-ajax.js" type="module"></script>
 </head>
 <body>
   
-   <section class="container">
+   <section class="container container-perfil" id="perfil">
       <div class="container_img">
 
          <img class="img-foto" src="../assets/no-image.jpg" alt="" id="img-foto">
@@ -20,7 +20,7 @@
 
          <form id="formElem">
             <label class="label-input" for="inputArchivo">
-               <input type="file" name="archivo" id="inputArchivo">       
+               <input type="file" name="archivo" id="inputArchivo" class="input-file">       
                <img  class="upload-img" src="../assets/upload.png" alt="">               
             </label>
          </form>
@@ -31,14 +31,45 @@
          <h2 id="telefono">Sin Telefono</h2>         
       </div>
    </section>
+   <section class="container container-chat" id="chat">
+      <div class="container-chat-mensaje">
+         
+         <div class="caja-mensajes">
+            <h3>Chat de Administradores</h3>
+            <hr>
+            <ul id="listaChat">
+
+            </ul>
+         </div>    
+         <div class="caja-escribir">
+            <h3>Escribir mensaje</h3>
+            <hr>
+            <input type="text" name="uid" id="textId" class="input-mensaje-chat" placeholder="ID" autocomplete="none">
+            <input type="text" name="mensaje" id="textMensaje" class="input-mensaje-chat" placeholder="Mensaje" autocomplete="none">
+         </div>     
+      </div>
+      <div class="container-lista-usuarios">
+         <h3>Usuarios Online</h3>
+         <hr>
+         <ul id="listaUsuarios">
+            
+         </ul>
+      </div>
+   </section>
+
    <section class="container-cerrar-sesion">
+      <button class="input-boton chat" id="boton-chat"> Abrir Chat </button>
       <a  href="" id="cerrar-sesion">
-         <div class="input-boton">
+         <div class="input-boton cerrar">
             <p>Cerrar Sesion</p>
          </div>
       </a>      
-      <script src="../js/home/subir-imagen.js"></script>
-      <script src="../js/home/cerrar-sesion.js"></script>
    </section>
+
+   
+
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="../js/home/subir-imagen.js"></script>
+   <script src="../js/home/cerrar-sesion.js"></script>
 </body>
 </html>

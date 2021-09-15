@@ -1,7 +1,8 @@
 require('dotenv').config()
-const express = require('express');
-const cors = require('cors');
+const express    = require('express');
+const cors       = require('cors');
 const fileUpload = require('express-fileupload');
+
 
 const routesAuth = require('./routes/auth')
 const routesBuscar = require('./routes/buscar')
@@ -10,11 +11,14 @@ const routesProductos = require('./routes/productos')
 const routesUsuarios = require('./routes/usuarios')
 const routesUploads = require('./routes/uploads')
 const routerViews = require('./routes/views')
-const {conectandoDB} = require('./db/config')
+const { conectandoDB } = require('./db/config');
+const { socketController } = require('./controllers/socket');
 
-// Variables
-const app = express();
-const port = process.env.PORT
+// Variables y Server
+const app    = express();
+const server = require('http').Server(app); // Creamos servidor http 
+const io     = require('socket.io')(server); 
+const port   = process.env.PORT
 
 // Conectando a DB
 conectandoDB();
@@ -39,7 +43,11 @@ app.use('/api/usuarios', routesUsuarios);
 app.use('/api/uploads', routesUploads);
 app.use('/home', routerViews)
 
+// Socket
+io.on('connection', socketController)
 
-app.listen(port, () => {
+
+
+server.listen(port, () => {
    console.log('Servidor corriendo en el puerto ', port)
 })

@@ -15,7 +15,8 @@ async function mostrarHome(req, res) {
     apellido: usuario.apellido,
     email: usuario.email,
     telefono: usuario.telefono,
-    img: usuario.img || ''
+    img: usuario.img || '',
+    rol: usuario.rol
 
   })
 };
