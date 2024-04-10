@@ -57,3 +57,6 @@ io.on('connection', socketController)
 server.listen(port, () => {
    console.log('Servidor corriendo en el puerto ', port)
 })
+
+// exportar
+module.exports = app;
