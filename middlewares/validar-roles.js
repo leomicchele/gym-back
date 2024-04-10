@@ -1,12 +1,13 @@
 
 
 function validarRoles(req, res, next) {
+   // console.log(usuario[0])
 
-   const rol = req.usuario.rol
-   const nombre = req.usuario.nombre
+   const rol = req.usuario[0].rol
+   const nombre = req.usuario[0].nombre
 
    // Verifica que el usuario tenga permiso de administrador
-   if(rol !== 'ADMIN_ROL') {
+   if(rol !== 'ADMIN_ROL' && rol !== 'PROFESOR_ROL') {
       return res.status(401).json({
          msg: 'No tiene permisos de administrador'
       })

@@ -2,32 +2,59 @@
 const bcrypt = require('bcrypt');
 const { generadorJWT } = require('../helpers/generador-jwt');
 const verificacionGoogle = require('../helpers/verificacion-google');
-const Usuario = require('../models/usuario')
+const Alumno = require('../models/alumno');
+const Profesor = require('../models/profesor');
+const Gimnasio = require('../models/gimnasio');
 
 // LOGIN TRADICIONAL
 async function login(req, res) {
 
-   const { email, password } = req.body
-   const usuario = await Usuario.findOne({ email: email }) 
    
-   // Compara el password
-   const passwordBool = bcrypt.compareSync(password, usuario.password);   
-   if(!passwordBool) {
+   const { dni, password } = req.body
+
+   const respuesta = await Promise.all([
+      Alumno.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
+      Profesor.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
+      Gimnasio.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
+      
+   ]);
+
+   let usuario;
+
+   respuesta.forEach(colection => {
+      if (colection === null) return
+      usuario = colection
+   });
+
+   try {
+      // const alumno = await Alumno.findOne({ dni: dni }) 
+      
+      // Compara el password
+      const passwordBool = bcrypt.compareSync(password, usuario.password);  
+      if(!passwordBool) {
+         return res.status(401).json({
+            msg: 'El dni o la contraseña no son validos - password'
+         })
+      };
+   
+      // Generar un JWT
+      const token = await generadorJWT( {id: usuario._id, nombre: usuario.nombre} )
+   
+     
+      // Enviar respuesta al cliente
+      res.json({
+         msg: 'Usuario logiado',
+         token: token,
+         id: usuario._id,
+         rol: usuario.rol
+      })        
+   } catch (error) {
+      console.info("Error login", error)
       return res.status(400).json({
-         msg: 'El Email o la contraseña no son validos - password'
+         msg: 'Problema con el Login'
       })
-   };
-
-   // Generar un JWT
-   const token = await generadorJWT( {id: usuario._id, nombre: usuario.nombre} )
-
-  
-   // Enviar respuesta al cliente
-   res.json({
-      msg: 'Usuario logiado',
-      token: token,
-      id: usuario._id
-   })  
+   }
+   
 };
 
 
@@ -40,9 +67,9 @@ async function loginGoogle(req, res) {
      const { email, nombre, apellido, img } = await verificacionGoogle(tokenGoogle);
 
       // Verifica si el email del payload existe en nuestra DB
-      let usuario = await Usuario.findOne({ email: email }) 
+      let usuario = await Alumno.findOne({ email: email }) 
       if(!usuario) { // Si no existe, lo crea
-         usuario = new Usuario({email, nombre, apellido, img, password: 'generica', google: true })
+         usuario = new Alumno({email, nombre, apellido, img, password: 'generica', google: true })
          await usuario.save()
       }
 

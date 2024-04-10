@@ -10,6 +10,8 @@ async function conectandoDB() {
         useCreateIndex: true,
         useFindAndModify: false,
       });
+
+      
       console.log('Base de datos CONECTADA')
       
    } catch (error) {      

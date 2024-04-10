@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const Usuario = require('../models/usuario')
+const Usuario = require('../models/usuario');
+const Profesor = require('../models/profesor');
+const Gimnasio = require('../models/gimnasio');
 
 
 async function validarJWT(req, res, next) {
@@ -17,17 +19,22 @@ async function validarJWT(req, res, next) {
    try {
       const payload = jwt.verify(tokenUsuario, process.env.CLAVE_FIRMA)
 
-      const usuarioAutenticado = await Usuario.findById( payload.id )
+
+      // const usuarioAutenticado = await Usuario.findById( payload.id )
+      const usuarioAutenticado = await Promise.all([
+         Profesor.findById( payload.id ),
+         Gimnasio.findById( payload.id ),
+      ])
 
       // Verifica si el usuario existe en la base de datos
-      if( !usuarioAutenticado ) {
+      if( !usuarioAutenticado[0] && !usuarioAutenticado[1]) {
          return res.status(401).json({
             msg: 'El usuario no existe en la Base de datos'
          })
       }
 
       // Verifica si el usuario esta dado de baja
-      if( !usuarioAutenticado.estado ) {
+      if( !usuarioAutenticado[0].estado && !usuarioAutenticado[1].estado) {
          return res.status(401).json({
             msg: 'El usuario esta dado de baja'
          })

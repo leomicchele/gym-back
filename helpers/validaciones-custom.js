@@ -2,6 +2,8 @@ const { findOne } = require('../models/categoria');
 const Categoria = require('../models/categoria');
 const Producto = require('../models/producto');
 const Usuario = require('../models/usuario');
+const Alumno = require('../models/alumno');
+const Profesor = require('../models/profesor');
 
 // ----------------------- USUARIOS -----------------------
 
@@ -28,6 +30,56 @@ async function verificarEmailLogin(email) {
      throw new Error(' El mail o la contraseña no son validos - email')
    }
 };
+// ----------------------- ALUMNOS -----------------------
+
+// async function verificarEmailRegitro(email) {   
+//    const emailExiste = await Usuario.findOne({ email: email });
+   
+//    if (emailExiste) {
+//      throw new Error('El Email ya existe')
+//    }
+// };
+
+async function verificarExistenciaIDAlumno(id) {
+  const existeID = await Alumno.findById(id);
+
+  if (!existeID) {
+    throw new Error("El ID no existe");
+  }
+};
+
+async function verificarEmailLogin(email) {
+  const emailExiste = await Alumno.findOne({ email: email });
+
+   if (!emailExiste) {
+     throw new Error(' El mail o la contraseña no son validos - email')
+   }
+};
+// ----------------------- PROFESORES -----------------------
+
+// async function verificarEmailRegitro(email) {   
+//    const emailExiste = await Usuario.findOne({ email: email });
+   
+//    if (emailExiste) {
+//      throw new Error('El Email ya existe')
+//    }
+// };
+
+async function verificarExistenciaIDProfesor(id) {
+  const existeID = await Profesor.findById(id);
+
+  if (!existeID) {
+    throw new Error("El ID no existe");
+  }
+};
+
+// async function verificarEmailLogin(email) {
+//   const emailExiste = await Alumno.findOne({ email: email });
+
+//    if (!emailExiste) {
+//      throw new Error(' El mail o la contraseña no son validos - email')
+//    }
+// };
 
 // ----------------------- CATEGORIAS -----------------------
 
@@ -103,5 +155,7 @@ module.exports = {
    verificaProductoNombre,
    categoriaNombre,
    verificaProductoID,
-   verificaColeccion
+   verificaColeccion,
+   verificarExistenciaIDAlumno,
+   verificarExistenciaIDProfesor
 }

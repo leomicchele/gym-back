@@ -7,39 +7,40 @@ const { validarRoles } = require('../middlewares/validar-roles');
 const { validarcampos } = require('../middlewares/validar-campos')
 
 // Funciones helpers
-const { verificarEmailRegitro, verificarExistenciaID } = require('../helpers/validaciones-custom')
-const { getUsuarios, createUsuario, updateUsuario, deleteUsuario } = require('../controllers/usuarios');
+const { verificarEmailRegitro, verificarExistenciaID, verificarExistenciaIDProfesor } = require('../helpers/validaciones-custom')
+const { getGimnasios, createGimnasio, updateGimnasio, deleteGimnasio } = require('../controllers/gimnasios');
 
 
-// OBTENER USUARIOS
-routes.get('/', getUsuarios)
+// OBTENER GIMNASIOS
+routes.get('/', getGimnasios)
 
-// CREAR USUARIO
+// CREAR GIMNASIO
 routes.post('/', 
    check('nombre').notEmpty().withMessage('El nombre no debe venir vacio'),      
-   check('email').isEmail().withMessage('Debe ser un mail valido'),
+   // check('apellido').notEmpty().withMessage('El nombre no debe venir vacio'),      
+   // check('email').isEmail().withMessage('Debe ser un mail valido'),
    check('password').isLength({ min: 6 }).withMessage('El password debe tener un minimo de 6 caracteres'),
    // check('telefono').matches(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/).withMessage('Debe ser un telefono valido'),
-   check('email').custom( (email) => verificarEmailRegitro(email) ), 
+   // check('email').custom( (email) => verificarEmailRegitro(email) ), 
    validarcampos // MiddleWare personalizado, recibe el error de los check()
-, createUsuario)
+, createGimnasio)
 
-// ACTUALIZAR USUARIO
+// ACTUALIZAR GIMNASIO
 routes.put('/:id',
    check('id').isMongoId().withMessage('El ID debe ser valido'), 
-   check('id').custom( id => verificarExistenciaID(id) ),
+   check('id').custom( id => verificarExistenciaIDProfesor(id) ),
    validarcampos // MiddleWare personalizado, recibe el error de los check()
-, updateUsuario)
+, updateGimnasio)
 
 
-// DAR DE BAJA USUARIO
+// DAR DE BAJA GIMNASIO
 routes.delete('/:id',
    validarJWT, // MiddleWare personalizado
    validarRoles, // MiddleWare personalizado
    check('id').isMongoId().withMessage('El ID debe ser valido'), 
-   check('id').custom( id => verificarExistenciaID(id) ),
+   check('id').custom( id => verificarExistenciaIDProfesor(id) ),
    validarcampos // MiddleWare personalizado (recibe los errores de los "chech()")
-, deleteUsuario)
+, deleteGimnasio)
 
 
 module.exports = routes

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="google-signin-client_id" content="1017996361951-b2odkg7iib8jqagikkah94vua6ftjghj.apps.googleusercontent.com">
+   <title>Panificadora</title>
+   <link rel="stylesheet" href="./css/style.css">
+   <link rel="shortcut icon" href="./assets/bread.png" type="image/x-icon">
+</head>
+<body>
+   <section></section>
+
+   <!-- ------------------ LOGIN ------------------ -->
+   <section class="section_login">
+      <form action="">
+         <div class="container_login container" id="container-login">
+            <h2 class="container-title">Log in</h2>
+            <div class="grupo__input">
+               <label for="username">Email</label>
+               <input type="text" class="input-texto" placeholder="Ej: juan@correo.com" id="username">
+               <p class="parrafo-error" id="parrafo-username-error">* Debe ser un email valido</p>
+            </div>
+            <div class="grupo__input">
+               <label for="password">Password</label>
+               <input type="password" class="input-texto" placeholder="Contraseña" id="password">
+               <p class="parrafo-error" id="parrafo-passwoord-error">* Debe tener entre 6 a 14 caracteres</p>
+            </div>
+            <input type="submit" value="LOGIN" class="input-boton" id="boton-login">
+            
+            <!-- <hr> -->
+            <div class="or">
+               <span >O</span> 
+
+            </div>
+
+            <div class="container-google">
+               <div class="g-signin2"  data-onsuccess="onSignIn"  id="my-signin2"></div>
+               <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+            </div>
+            <hr>
+            <div class="container-crea_cuenta">
+               <p>¿No estas registrado? | <a href="/registro">Create una cuenta</a></p>
+            </div>
+         </div>
+      </form>
+   </section>
+
+   <!-- ------------------ LOADING - MENSAJE_PETICION ------------------ -->
+   <div class="container-loading" >
+      <img src="../src/img/loading.svg" alt="" id="loading">      
+   </div>
+
+   <div class="container-peticion" id="container-peticion">
+      <p id="peticion-parrafo" class="peticion-parrafo">esto es un aprueba</p>
+   </div>
+   
+   <!-- ------------------ SCRIPTS ------------------ -->
+   <script src="./js/login-google.js"></script>
+   <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+   <script src="./js/login.js" type="module"></script>
+
+</body>
+</html>
