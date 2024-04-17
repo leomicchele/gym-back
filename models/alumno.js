@@ -30,18 +30,7 @@ const AlumnoSchema = new Schema({
       type: Boolean,
       default: true
    },
-   rutina: [
-      {
-         type: Object,
-         default: {
-            dia1: {},
-            dia2: {},
-            dia3: {},
-            dia4: {},
-            dia5: {}
-         }
-      }
-   ]
+   rutina: [],
 })
 
 const Alumno = model('Alumno', AlumnoSchema);
