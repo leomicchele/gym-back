@@ -24,7 +24,7 @@ const AlumnoSchema = new Schema({
    },
    rol: {
       type: String,
-      default: 'USER_ROL'
+      default: 'ALUMNO_ROL'
    },
    estado: {
       type: Boolean,

@@ -20,7 +20,7 @@ const { socketController } = require('./controllers/socket');
 // Variables y Server
 const app    = express();
 const server = require('http').Server(app); // Creamos servidor http 
-const io     = require('socket.io')(server); 
+// const io     = require('socket.io')(server); 
 const port   = process.env.PORT
 
 // Conectando a DB
@@ -50,7 +50,7 @@ app.use('/api/uploads', routesUploads);
 app.use('/home', routerViews)
 
 // Socket
-io.on('connection', socketController)
+// io.on('connection', socketController)
 
 
 

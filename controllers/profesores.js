@@ -11,7 +11,8 @@ async function getProfesores(req, res) {
    try {
       const respuesta = await Promise.all([
          Profesor.countDocuments({estado: true, gimnasio}), // Cuenta a los que estan dados de alta
-         Profesor.find({estado: true}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+         // Profesor.find({estado: true}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+         Profesor.find({gimnasio: gimnasio}) // Trae a los que estan dado de alta
       ]);
 
       res.status(200).json({
@@ -76,10 +77,10 @@ async function deleteProfesores(req, res) {
 
    const id = req.params.id
 
-   const profesorBaja = await Profesor.findByIdAndUpdate(id, {estado: false})
+   const profesorBaja = await Profesor.findByIdAndRemove(id)
    
    res.status(201).json({
-      msg: 'Profesor dado de baja',
+      msg: 'Profesor Eliminado',
       Profesor: profesorBaja,
    })
 }

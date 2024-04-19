@@ -29,16 +29,34 @@ const Gimnasio = require('../models/gimnasio');
 // }
 async function getAlumnos(req, res) {
 
-   const { limite, desde, profesor } = req.query;
+   const { limite, desde } = req.query;
+   const usuarioId = req.query.profesor ? req.query.profesor : req.query.gimnasio
+   console.log({usuario: usuarioId})
 
    try {
-      const respuesta = await Promise.all([
-         // Alumno.countDocuments({estado: true, profesor: profesor}), // Cuenta a los que estan dados de alta
-         // Alumno.find({estado: true, profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
-         Alumno.countDocuments({profesor: profesor}), // Cuenta a los que estan dados de alta
-         Alumno.find({profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
-      ]);
 
+      let respuesta;
+
+
+      if (!req.query.profesor) {  // GIMNASIO
+         respuesta = await Promise.all([
+            // Alumno.countDocuments({estado: true, profesor: profesor}), // Cuenta a los que estan dados de alta
+            // Alumno.find({estado: true, profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+            Alumno.countDocuments({gimnasio: usuarioId}), // Cuenta a los que estan dados de alta
+            // Alumno.find({profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+            Alumno.find({gimnasio: usuarioId}).populate('profesor', 'nombre apellido')
+         ]);         
+      } else {   // PROFESOR
+         respuesta = await Promise.all([
+            // Alumno.countDocuments({estado: true, profesor: profesor}), // Cuenta a los que estan dados de alta
+            // Alumno.find({estado: true, profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+            Alumno.countDocuments({profesor: usuarioId}), // Cuenta a los que estan dados de alta
+            // Alumno.find({profesor: profesor}).skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
+            Alumno.find({profesor: usuarioId}).populate('profesor', 'nombre apellido')
+         ]); 
+      }
+
+      console.log(respuesta[1])
       res.status(200).json({
          Total_Usuarios: respuesta[0],
          Usuarios: respuesta[1]
@@ -55,7 +73,6 @@ async function getAlumnos(req, res) {
 // CREAR USUARIO
 async function createAlumnos(req, res) {
    const body = req.body
-   console.info({body})
 
    const alumnoNuevo = new Alumno(body);
 

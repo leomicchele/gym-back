@@ -7,7 +7,7 @@ const { validarRoles } = require('../middlewares/validar-roles');
 const { validarcampos } = require('../middlewares/validar-campos')
 
 // Funciones helpers
-const { verificarEmailRegitro, verificarExistenciaID, verificarExistenciaIDProfesor } = require('../helpers/validaciones-custom')
+const { verificarEmailRegitroProfesor, verificarExistenciaID, verificarExistenciaIDProfesor } = require('../helpers/validaciones-custom')
 const { getProfesores, createProfesores, updateProfesores, deleteProfesores } = require('../controllers/profesores');
 
 
@@ -21,7 +21,7 @@ routes.post('/',
    // check('email').isEmail().withMessage('Debe ser un mail valido'),
    check('password').isLength({ min: 6 }).withMessage('El password debe tener un minimo de 6 caracteres'),
    // check('telefono').matches(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/).withMessage('Debe ser un telefono valido'),
-   // check('email').custom( (email) => verificarEmailRegitro(email) ), 
+   check('email').custom( (email) => verificarEmailRegitroProfesor(email) ), 
    validarcampos // MiddleWare personalizado, recibe el error de los check()
 , createProfesores)
 

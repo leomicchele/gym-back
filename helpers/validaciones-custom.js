@@ -48,22 +48,23 @@ async function verificarExistenciaIDAlumno(id) {
   }
 };
 
-async function verificarEmailLogin(email) {
-  const emailExiste = await Alumno.findOne({ email: email });
+// async function verificarEmailLogin(email) {
+//   const emailExiste = await Alumno.findOne({ email: email });
 
-   if (!emailExiste) {
-     throw new Error(' El mail o la contraseña no son validos - email')
-   }
-};
-// ----------------------- PROFESORES -----------------------
-
-// async function verificarEmailRegitro(email) {   
-//    const emailExiste = await Usuario.findOne({ email: email });
-   
-//    if (emailExiste) {
-//      throw new Error('El Email ya existe')
+//    if (!emailExiste) {
+//      throw new Error(' El mail o la contraseña no son validos - email')
 //    }
 // };
+// ----------------------- PROFESORES -----------------------
+
+async function verificarEmailRegitroProfesor(email) {   
+   const emailExiste = await Profesor.findOne({ email: email });
+   
+   if (emailExiste) {
+     throw new Error('El Email ya existe')
+   }
+};
+
 
 async function verificarExistenciaIDProfesor(id) {
   const existeID = await Profesor.findById(id);
@@ -157,5 +158,6 @@ module.exports = {
    verificaProductoID,
    verificaColeccion,
    verificarExistenciaIDAlumno,
+   verificarEmailRegitroProfesor,
    verificarExistenciaIDProfesor
 }

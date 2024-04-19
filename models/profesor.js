@@ -5,6 +5,7 @@ const ProfesorSchema = new Schema({
    apellido: String,
    dni: String,
    password: String,
+   email: String,
    gimnasio: {
       type: Schema.Types.ObjectId,
       ref: 'Gimnasio',
@@ -12,7 +13,7 @@ const ProfesorSchema = new Schema({
    },
    rol: {
       type: String,
-      default: 'USER_ROL'
+      default: 'PROFESOR_ROL'
    },
    estado: {
       type: Boolean,
