@@ -31,7 +31,6 @@ async function getAlumnos(req, res) {
 
    const { limite, desde } = req.query;
    const usuarioId = req.query.profesor ? req.query.profesor : req.query.gimnasio
-   console.log({usuario: usuarioId})
 
    try {
 
@@ -56,7 +55,6 @@ async function getAlumnos(req, res) {
          ]); 
       }
 
-      console.log(respuesta[1])
       res.status(200).json({
          Total_Usuarios: respuesta[0],
          Usuarios: respuesta[1]
