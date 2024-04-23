@@ -4,6 +4,7 @@ const Producto = require('../models/producto');
 const Usuario = require('../models/usuario');
 const Alumno = require('../models/alumno');
 const Profesor = require('../models/profesor');
+const e = require('express');
 
 // ----------------------- USUARIOS -----------------------
 

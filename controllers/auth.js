@@ -11,13 +11,23 @@ async function login(req, res) {
 
    
    const { dni, password } = req.body
+   const email = req.body.email || null
+   let respuesta;
 
-   const respuesta = await Promise.all([
-      Alumno.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
-      Profesor.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
-      Gimnasio.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
+   if (email) {
+       respuesta = await Promise.all([
+         Profesor.findOne({ email: email }), // Cuenta a los que estan dados de alta
+         Gimnasio.findOne({ email: email }), // Cuenta a los que estan dados de alta
+         
+      ]);
       
-   ]);
+   } else {
+      respuesta = await Promise.all([
+         Alumno.findOne({ dni: dni }), // Cuenta a los que estan dados de alta
+         
+      ]);
+
+   }
 
    let usuario;
 
@@ -46,7 +56,8 @@ async function login(req, res) {
          msg: 'Usuario logiado',
          token: token,
          id: usuario._id,
-         rol: usuario.rol
+         rol: usuario.rol,
+         nombre: usuario.nombre
       })        
    } catch (error) {
       console.info("Error login", error)

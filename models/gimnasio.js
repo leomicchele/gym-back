@@ -4,6 +4,7 @@ const GimnasioSchema = new Schema({
    nombre: String,
    dni: String,
    password: String,
+   email: String,
    rol: {
       type: String,
       default: 'GYM_ROL'
