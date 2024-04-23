@@ -14,10 +14,10 @@ routes.post('/login',
 , login)
 
 // LOGUEA USUARIO CON GOOGLE
-routes.post('/google',
-   check('id_token').notEmpty().withMessage('El token de Google no es valido'),
-   validarcampos
-, loginGoogle)
+// routes.post('/google',
+//    check('id_token').notEmpty().withMessage('El token de Google no es valido'),
+//    validarcampos
+// , loginGoogle)
 
 
 module.exports = routes
