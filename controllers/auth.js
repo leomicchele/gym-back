@@ -50,15 +50,26 @@ async function login(req, res) {
       // Generar un JWT
       const token = await generadorJWT( {id: usuario._id, nombre: usuario.nombre} )
    
-     
-      // Enviar respuesta al cliente
-      res.json({
-         msg: 'Usuario logiado',
-         token: token,
-         id: usuario._id,
-         rol: usuario.rol,
-         nombre: usuario.nombre
-      })        
+     if (usuario.rol === 'PROFESOR_ROL' || usuario.rol === 'GYM_ROL') {
+        // Enviar respuesta al cliente
+        res.json({
+           msg: 'Usuario logiado',
+           token: token,
+           id: usuario._id,
+           rol: usuario.rol,
+           nombre: usuario.nombre
+        })
+      } else {
+        res.json({
+           msg: 'Usuario logiado',
+           token: token,
+           id: usuario._id,
+           rol: usuario.rol,
+           nombre: usuario.nombre,
+           rutina: usuario.rutina
+        })
+      
+     }
    } catch (error) {
       console.info("Error login", error)
       return res.status(400).json({
