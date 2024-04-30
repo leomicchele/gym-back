@@ -10,6 +10,7 @@ const { validarcampos } = require('../middlewares/validar-campos')
 const { verificarExistenciaIDAlumno } = require('../helpers/validaciones-custom')
 const { getAlumnos, createAlumnos, updateAlumnos, deleteAlumnos, getUsuario } = require('../controllers/alumnos');
 const { validarExistenciaAlumno } = require('../middlewares/validar-existencia-alumno');
+const { validarLimiteAlumnos } = require('../middlewares/validar-limiteAlumnos');
 
 
 // OBTENER USUARIOS
@@ -24,7 +25,8 @@ routes.post('/',
    check('password').isLength({ min: 6 }).withMessage('El password debe tener un minimo de 6 caracteres'),
    // check('telefono').matches(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/).withMessage('Debe ser un telefono valido'),
    validarcampos, // MiddleWare personalizado, recibe el error de los check()
-   validarExistenciaAlumno
+   validarExistenciaAlumno,
+   validarLimiteAlumnos
 , createAlumnos)
 
 // ACTUALIZAR USUARIO

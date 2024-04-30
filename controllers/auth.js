@@ -20,6 +20,19 @@ async function login(req, res) {
          Gimnasio.findOne({ email: email }), // Cuenta a los que estan dados de alta
          
       ]);
+
+      const [profesor, gimnasio] = respuesta;
+      if (profesor === null && gimnasio === null) { // Ambos resultados son null, envía un error 401, no existen
+         return res.status(400).json({ msg: 'Verifica Usuario y contraseña' });
+      }
+      if (profesor !== null && profesor.estado === false) { // cuando el profesor esta inactivo
+         return res.status(401).json({ msg: 'No autorizado' });
+      }
+      if (gimnasio !== null && gimnasio.estado === false) { // cuando el gimnasio esta inactivo
+         return res.status(401).json({ msg: 'No autorizado' });
+      }
+
+      
       
    } else {
       respuesta = await Promise.all([
@@ -27,6 +40,13 @@ async function login(req, res) {
          
       ]);
 
+      const [alumno] = respuesta;
+      if (alumno === null ) {
+         return res.status(400).json({ msg: 'Verifica Usuario y contraseña' });
+     }
+      if (alumno.estado === false) { // cuando el alumno esta inactivo
+         return res.status(401).json({ msg: 'No autorizado' });         
+      }
    }
 
    let usuario;
@@ -42,8 +62,8 @@ async function login(req, res) {
       // Compara el password
       const passwordBool = bcrypt.compareSync(password, usuario.password);  
       if(!passwordBool) {
-         return res.status(401).json({
-            msg: 'El dni o la contraseña no son validos - password'
+         return res.status(400).json({
+            msg: 'Verifica Usuario y contraseña'
          })
       };
    

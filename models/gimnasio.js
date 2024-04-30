@@ -12,7 +12,11 @@ const GimnasioSchema = new Schema({
    estado: {
       type: Boolean,
       default: true
-   }
+   },
+   limiteAlumnos: {
+      type: Number,
+      default: 0
+   },
 })
 
 const Gimnasio = model('Gimnasio', GimnasioSchema);

@@ -18,7 +18,11 @@ const ProfesorSchema = new Schema({
    estado: {
       type: Boolean,
       default: true
-   }
+   },
+   limiteAlumnos: {
+      type: Number,
+      default: 0
+   },
 })
 
 const Profesor = model('Profesor', ProfesorSchema);
