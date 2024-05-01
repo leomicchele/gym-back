@@ -87,7 +87,8 @@ async function login(req, res) {
            id: usuario._id,
            rol: usuario.rol,
            nombre: usuario.nombre,
-           rutina: usuario.rutina
+           rutina: usuario.rutina,
+           caducacionRutina: usuario?.caducacionRutina
         })
      } else if(usuario.rol === 'GYM_ROL') {
          res.json({
