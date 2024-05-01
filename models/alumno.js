@@ -12,6 +12,7 @@ const AlumnoSchema = new Schema({
    objetivo: String,
    diasSemanales: String,
    deporte: String,
+   caducacionRutina: String,
    profesor: {
       type: Schema.Types.ObjectId,
       ref: 'Profesor',
@@ -20,7 +21,7 @@ const AlumnoSchema = new Schema({
    gimnasio: {
       type: Schema.Types.ObjectId,
       ref: 'Gimnasio',
-      default: '66060519b330522580eb70d3'
+      default: '662fdd8e0bc4a4527cb078eb'
    },
    rol: {
       type: String,
