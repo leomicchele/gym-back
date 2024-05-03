@@ -96,7 +96,6 @@ async function updateAlumnos(req, res) {
 
    const id = req.params.id
    const {...resto} = req.body
-   console.info(resto)
 
    // Encriptar contraseñas
    if (resto.password) {
@@ -112,9 +111,7 @@ async function updateAlumnos(req, res) {
       alumnoUpdate: {
          nombre: alumnoUpdate.nombre,
          apellido: alumnoUpdate.apellido,
-         email: alumnoUpdate.email,
-         telefono: alumnoUpdate.telefono,
-         google: alumnoUpdate.google,
+         rutina: alumnoUpdate.rutina,
       }
    })
 }
