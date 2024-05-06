@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 
-const Profesor = require('../models/profesor')
+const Profesor = require('../models/profesor');
+const Alumno = require('../models/alumno');
 
 
 // OBTENER USUARIOS
@@ -76,6 +77,16 @@ async function updateProfesores(req, res) {
 async function deleteProfesores(req, res) {
 
    const id = req.params.id
+
+   const respuesta = await Promise.all([       // Cuenta a los que estan dados de alta
+      Alumno.find({profesor: id}),
+      Profesor.findById(id)
+   ]);   
+
+   // cabiar el id del profesor de los alumnos al del gimnasio
+   if (respuesta[0].length > 0) {
+      await Alumno.updateMany({profesor: id}, {profesor: respuesta[1].gimnasio})
+   }
 
    const profesorBaja = await Profesor.findByIdAndRemove(id)
    

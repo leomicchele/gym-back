@@ -33,6 +33,7 @@ async function createGimnasio(req, res) {
    // Encriptar contraseñas
    const hash = bcrypt.hashSync(body.password, 10);
    gimnasioNuevo.password = hash;
+   gimnasioNuevo.fechaCreacion = Date.now()
 
    // Guardar el usuario nuevo en base de datos
    await gimnasioNuevo.save()

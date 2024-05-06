@@ -32,6 +32,9 @@ const AlumnoSchema = new Schema({
       default: true
    },
    rutina: [],
+   fechaCreacion: {
+      type: Date
+   }
 })
 
 const Alumno = model('Alumno', AlumnoSchema);

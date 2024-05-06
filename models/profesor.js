@@ -23,6 +23,9 @@ const ProfesorSchema = new Schema({
       type: Number,
       default: 0
    },
+   fechaCreacion: {
+      type: Date
+   }
 })
 
 const Profesor = model('Profesor', ProfesorSchema);

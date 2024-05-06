@@ -17,6 +17,9 @@ const GimnasioSchema = new Schema({
       type: Number,
       default: 0
    },
+   fechaCreacion: {
+      type: Date
+   }
 })
 
 const Gimnasio = model('Gimnasio', GimnasioSchema);
