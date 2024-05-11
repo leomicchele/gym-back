@@ -3,30 +3,8 @@ const bcrypt = require('bcrypt');
 const Alumno = require('../models/alumno');
 const Profesor = require('../models/profesor');
 const Gimnasio = require('../models/gimnasio');
+const Rutina = require('../models/rutina');
 
-
-// OBTENER USUARIOS
-// async function getUsuario(req, res) {
-
-//    const { id  } = req.query;
-
-//    try {
-//       const respuesta = await Promise.all([
-//          Alumno.findOne({estado: true, _id: id}), 
-//          Profesor.findOne({estado: true, _id: id}), 
-//          Gimnasio.findOne({estado: true, _id: id}) 
-//       ]);
-
-//       console.info(respuesta)
-
-//       res.status(200).json({
-//          Usuarios: respuesta[1]
-//       })
-
-//    } catch (error) {
-//       console.log('La peticion no se realizo')
-//    }  
-// }
 async function getAlumnos(req, res) {
 
    const { limite, desde } = req.query;
@@ -73,6 +51,14 @@ async function createAlumnos(req, res) {
    const body = req.body
 
    const alumnoNuevo = new Alumno(body);
+   const rutinaNueva = new Rutina({
+      caducacionRutina: '',
+      rutina: []   
+   });
+
+   await rutinaNueva.save()
+   alumnoNuevo.rutinaId = rutinaNueva._id
+
 
    // Encriptar contraseñas
    const hash = bcrypt.hashSync(body.password, 10);
@@ -96,6 +82,7 @@ async function updateAlumnos(req, res) {
 
    const id = req.params.id
    const {...resto} = req.body
+   const rutinaId = req.body.rutinaId
 
    // Encriptar contraseñas
    if (resto.password) {
@@ -103,15 +90,20 @@ async function updateAlumnos(req, res) {
       resto.password = hash;      
    }
 
+   // Actualiza Rutina
+   await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+
+   
    // Actualiza todo menos email, google y password
-   const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, resto, {new: true})
+   const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
 
    res.status(201).json({
       msg: 'Alumno actualizado',
       alumnoUpdate: {
          nombre: alumnoUpdate.nombre,
          apellido: alumnoUpdate.apellido,
-         rutina: alumnoUpdate.rutina,
+         // rutina: rutinaUpdate.rutina,
+         // caducacionRutina: rutinaUpdate.caducacionRutina
       }
    })
 }

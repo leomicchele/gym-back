@@ -31,6 +31,10 @@ const AlumnoSchema = new Schema({
       type: Boolean,
       default: true
    },
+   rutinaId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Rutina'
+   },
    rutina: [],
    fechaCreacion: {
       type: Date
