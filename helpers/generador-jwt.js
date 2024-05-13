@@ -3,7 +3,7 @@ const claveSecreta = process.env.CLAVE_FIRMA
 
 function generadorJWT(datos) {
    return new Promise((resolve, reject) => {
-      jwt.sign(datos, claveSecreta, { expiresIn: '4h' }, (err, token) =>{
+      jwt.sign(datos, claveSecreta, (err, token) =>{
          if(err){
             reject('El JWT no se genero')
          } else {
