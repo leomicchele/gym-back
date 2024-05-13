@@ -2,12 +2,10 @@
 const Rutina = require('../models/rutina')
 
 
-// OBTENER USUARIOS
+// OBTENER Rutinas
 async function getRutina(req, res) {
 
    const { id } = req.params;
-   console.log(req.query)
-
 
    try {
 

@@ -4,6 +4,7 @@ const Alumno = require('../models/alumno');
 const Profesor = require('../models/profesor');
 const Gimnasio = require('../models/gimnasio');
 const Rutina = require('../models/rutina');
+const Historial = require('../models/historial');
 
 async function getAlumnos(req, res) {
 
@@ -55,9 +56,15 @@ async function createAlumnos(req, res) {
       caducacionRutina: '',
       rutina: []   
    });
+   const historialNuevo = new Historial({
+      historial: []   
+   });
 
    await rutinaNueva.save()
    alumnoNuevo.rutinaId = rutinaNueva._id
+
+   await historialNuevo.save()
+   alumnoNuevo.historialId = historialNuevo._id
 
 
    // Encriptar contraseñas
@@ -82,7 +89,6 @@ async function updateAlumnos(req, res) {
 
    const id = req.params.id
    const {...resto} = req.body
-   const rutinaId = req.body.rutinaId
 
    // Encriptar contraseñas
    if (resto.password) {
@@ -90,11 +96,36 @@ async function updateAlumnos(req, res) {
       resto.password = hash;      
    }
 
-   // Actualiza Rutina
-   await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+   // find alumno
+   const alumno = await Alumno.findById(id)
+
+   // Si no existe el historial, lo crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
+   if (!alumno.historialId) {
+      const historialNuevo = new Historial({
+         historial: []   
+      });
+      await historialNuevo.save()
+      resto.historialId = historialNuevo._id      
+    }
+   // Si no existe la rutinaId, Se crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
+   if (!alumno.rutinaId) {
+      const rutinaNueva = new Rutina({
+         caducacionRutina: '',
+         rutina: []   
+      });
+      await rutinaNueva.save()
+      resto.rutinaId = rutinaNueva._id          
+      await Rutina.findOneAndUpdate({_id: rutinaNueva._id }, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+    } else {
+      const rutinaId = req.body.rutinaId
+       // Actualiza Rutina
+       await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+
+    }
+
 
    
-   // Actualiza todo menos email, google y password
+   // Actualiza 
    const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
 
    res.status(201).json({
@@ -111,14 +142,36 @@ async function updateAlumnos(req, res) {
 // ELIMINAR USUARIO
 async function deleteAlumnos(req, res) {
 
-   const id = req.params.id
-
-   const usuarioBaja = await Alumno.findByIdAndRemove(id)
-   
-   res.status(201).json({
-      msg: 'Usuario Eliminado',
-      Usuario: usuarioBaja,
-   })
+   const alumnoId = req.params.id
+   try {
+      // Buscar el alumno por su ID
+      const alumno = await Alumno.findById(alumnoId);
+  
+      if (!alumno) {
+        return res.status(404).json({ msg: 'Alumno no encontrado' });
+      }
+  
+      // Eliminar rutina asociada, si existe
+      if (alumno.rutinaId) {
+        await Rutina.findByIdAndRemove(alumno.rutinaId);
+      }
+  
+      // Eliminar historial asociado, si existe
+      if (alumno.historialId) {
+        await Historial.findByIdAndRemove(alumno.historialId);
+      }
+  
+      // Eliminar el alumno (usuario)
+      await Alumno.findByIdAndRemove(alumnoId);
+  
+      res.status(201).json({
+        msg: 'Usuario Eliminado',
+        // Usuario: usuarioBaja,
+      });
+    } catch (error) {
+      console.error('Error al eliminar usuario y referencias:', error);
+      res.status(500).json({ msg: 'Error interno del servidor' });
+    }
 }
 // async function deleteAlumnos(req, res) {
 
