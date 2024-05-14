@@ -119,7 +119,7 @@ async function updateAlumnos(req, res) {
     } else {
       const rutinaId = req.body.rutinaId
        // Actualiza Rutina
-       await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+       await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina })}, {new: true})
 
     }
 
