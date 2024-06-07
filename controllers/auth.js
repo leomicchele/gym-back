@@ -71,6 +71,7 @@ async function login(req, res) {
       const token = await generadorJWT( {id: usuario._id, nombre: usuario.nombre} )
    
      if (usuario.rol === 'PROFESOR_ROL') {
+         console.log('PROFESOR LOGUEADO', usuario.nombre)
         // Enviar respuesta al cliente
         res.json({
            msg: 'Usuario logiado',
@@ -81,6 +82,8 @@ async function login(req, res) {
            gimnasio: usuario.gimnasio
         })
       } else if(usuario.rol === 'ALUMNO_ROL') {
+         console.log('ALUMNO LOGUEADO', usuario.nombre)
+
         res.json({
            msg: 'Usuario logiado',
            token: token,
@@ -92,6 +95,7 @@ async function login(req, res) {
          //   caducacionRutina: usuario?.caducacionRutina
         })
      } else if(usuario.rol === 'GYM_ROL') {
+         console.log('GYM LOGUEADO', usuario.nombre)
          res.json({
             msg: 'Usuario logiado',
             token: token,

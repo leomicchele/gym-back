@@ -43,7 +43,7 @@ async function getAlumnos(req, res) {
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })
-      console.log('La peticion no se realizo')
+      console.log('La peticion no se realizo  en getAlumnos en alumnos.js: ', error)
    }  
 }
 
@@ -51,37 +51,47 @@ async function getAlumnos(req, res) {
 async function createAlumnos(req, res) {
    const body = req.body
 
-   const alumnoNuevo = new Alumno(body);
-   const rutinaNueva = new Rutina({
-      caducacionRutina: '',
-      rutina: []   
-   });
-   const historialNuevo = new Historial({
-      historial: []   
-   });
+   try {      
+      const alumnoNuevo = new Alumno(body);
+      const rutinaNueva = new Rutina({
+         caducacionRutina: '',
+         rutina: []   
+      });
+      const historialNuevo = new Historial({
+         historial: []   
+      });
+   
+      await rutinaNueva.save()
+      alumnoNuevo.rutinaId = rutinaNueva._id
+   
+      await historialNuevo.save()
+      alumnoNuevo.historialId = historialNuevo._id
+   
+   
+      // Encriptar contraseñas
+      const hash = bcrypt.hashSync(body.password, 10);
+      alumnoNuevo.password = hash;
+   
+      // Guardar el usuario nuevo en base de datos
+      await alumnoNuevo.save()
 
-   await rutinaNueva.save()
-   alumnoNuevo.rutinaId = rutinaNueva._id
+      console.log(`Alumno Creado: ${alumnoNuevo.nombre} ${alumnoNuevo.apellido}`)
+   
+      // Regresa una respuesta al cliente
+      res.status(201).json({
+        msg: "Alumno Registrado",     
+        alumno_Resgistrado: {
+          nombre: alumnoNuevo.nombre,
+          apellido: alumnoNuevo.apellido
+        }
+      });
+   } catch (error) {
+      console.log('La peticion no se realizo en createAlumnos en alumnos.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
+   }
 
-   await historialNuevo.save()
-   alumnoNuevo.historialId = historialNuevo._id
-
-
-   // Encriptar contraseñas
-   const hash = bcrypt.hashSync(body.password, 10);
-   alumnoNuevo.password = hash;
-
-   // Guardar el usuario nuevo en base de datos
-   await alumnoNuevo.save()
-
-   // Regresa una respuesta al cliente
-   res.status(201).json({
-     msg: "Alumno Registrado",     
-     alumno_Resgistrado: {
-       nombre: alumnoNuevo.nombre,
-       apellido: alumnoNuevo.apellido
-     }
-   });
 }
 
 // ACTUALIZAR USUARIO
@@ -96,47 +106,55 @@ async function updateAlumnos(req, res) {
       resto.password = hash;      
    }
 
-   // find alumno
-   const alumno = await Alumno.findById(id)
-
-   // Si no existe el historial, lo crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
-   if (!alumno.historialId) {
-      const historialNuevo = new Historial({
-         historial: []   
-      });
-      await historialNuevo.save()
-      resto.historialId = historialNuevo._id      
-    }
-   // Si no existe la rutinaId, Se crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
-   if (!alumno.rutinaId) {
-      const rutinaNueva = new Rutina({
-         caducacionRutina: '',
-         rutina: []   
-      });
-      await rutinaNueva.save()
-      resto.rutinaId = rutinaNueva._id          
-      await Rutina.findOneAndUpdate({_id: rutinaNueva._id }, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
-    } else {
-      const rutinaId = req.body.rutinaId
-       // Actualiza Rutina
-       await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina })}, {new: true})
-
-    }
-
-
+   try {      
+      // find alumno
+      const alumno = await Alumno.findById(id)
    
-   // Actualiza 
-   const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
+      // Si no existe el historial, lo crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
+      if (!alumno.historialId) {
+         const historialNuevo = new Historial({
+            historial: []   
+         });
+         await historialNuevo.save()
+         resto.historialId = historialNuevo._id      
+       }
+      // Si no existe la rutinaId, Se crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
+      if (!alumno.rutinaId) {
+         const rutinaNueva = new Rutina({
+            caducacionRutina: '',
+            rutina: []   
+         });
+         await rutinaNueva.save()
+         resto.rutinaId = rutinaNueva._id          
+         await Rutina.findOneAndUpdate({_id: rutinaNueva._id }, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
+       } else {
+         const rutinaId = req.body.rutinaId
+          // Actualiza Rutina
+          await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina })}, {new: true})
+   
+       }
 
-   res.status(201).json({
-      msg: 'Alumno actualizado',
-      alumnoUpdate: {
-         nombre: alumnoUpdate.nombre,
-         apellido: alumnoUpdate.apellido,
-         // rutina: rutinaUpdate.rutina,
-         // caducacionRutina: rutinaUpdate.caducacionRutina
-      }
-   })
+      // Actualiza 
+      const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
+
+      console.log(`Alumno Actualizado: ${alumnoUpdate.nombre} ${alumnoUpdate.apellido}`)
+   
+      res.status(201).json({
+         msg: 'Alumno actualizado',
+         alumnoUpdate: {
+            nombre: alumnoUpdate.nombre,
+            apellido: alumnoUpdate.apellido,
+            // rutina: rutinaUpdate.rutina,
+            // caducacionRutina: rutinaUpdate.caducacionRutina
+         }
+      })
+   } catch (error) {
+      console.log('La peticion no se realizo en updateAlumnos en alumnos.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
+   }
+
 }
 
 // ELIMINAR USUARIO

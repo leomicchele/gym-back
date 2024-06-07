@@ -30,23 +30,33 @@ async function getProfesores(req, res) {
 async function createProfesores(req, res) {
    const body = req.body
 
-   const profesorNuevo = new Profesor(body);
+   try {
+      const profesorNuevo = new Profesor(body);
+   
+      // Encriptar contraseñas
+      const hash = bcrypt.hashSync(body.password, 10);
+      profesorNuevo.password = hash;
+   
+      // Guardar el usuario nuevo en base de datos
+      await profesorNuevo.save()
+   
+      console.log(`Profesor Registrado: ${profesorNuevo.nombre} ${profesorNuevo.apellido}`)
+   
+      // Regresa una respuesta al cliente
+      res.status(201).json({
+        msg: "Profesor Registrado",     
+        profesor_Resgistrado: {
+          nombre: profesorNuevo.nombre,
+          apellido: profesorNuevo.apellido
+        }
+      });      
+   } catch (error) {
+      console.log('La peticion no se realizo en createProfesores en profesores.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo'
+      })
+   }
 
-   // Encriptar contraseñas
-   const hash = bcrypt.hashSync(body.password, 10);
-   profesorNuevo.password = hash;
-
-   // Guardar el usuario nuevo en base de datos
-   await profesorNuevo.save()
-
-   // Regresa una respuesta al cliente
-   res.status(201).json({
-     msg: "Profesor Registrado",     
-     profesor_Resgistrado: {
-       nombre: profesorNuevo.nombre,
-       apellido: profesorNuevo.apellido
-     }
-   });
 }
 
 // ACTUALIZAR USUARIO
@@ -61,16 +71,25 @@ async function updateProfesores(req, res) {
       resto.password = hash;      
    }
 
-   // Actualiza todo menos email, google y password
-   const profesorUpdate = await Profesor.findOneAndUpdate({_id: id}, resto, {new: true})
-
-   res.status(201).json({
-      msg: 'Profesor actualizado',
-      alumnoUpdate: {
-         nombre: profesorUpdate.nombre,
-         apellido: profesorUpdate.apellido,
-      }
-   })
+   try {
+      // Actualiza todo menos email, google y password
+      const profesorUpdate = await Profesor.findOneAndUpdate({_id: id}, resto, {new: true})
+   
+      console.log(`Profesor Actualizado: ${profesorUpdate.nombre} ${profesorUpdate.apellido}`)
+   
+      res.status(201).json({
+         msg: 'Profesor actualizado',
+         alumnoUpdate: {
+            nombre: profesorUpdate.nombre,
+            apellido: profesorUpdate.apellido,
+         }
+      })      
+   } catch (error) {
+      console.log('La peticion no se realizo en updateProfesores en profesores.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })      
+   }
 }
 
 // ELIMINAR USUARIO
@@ -78,22 +97,33 @@ async function deleteProfesores(req, res) {
 
    const id = req.params.id
 
-   const respuesta = await Promise.all([       // Cuenta a los que estan dados de alta
-      Alumno.find({profesor: id}),
-      Profesor.findById(id)
-   ]);   
+   try {
+      const respuesta = await Promise.all([       // Cuenta a los que estan dados de alta
+         Alumno.find({ profesor: id }),
+         Profesor.findById(id)
+      ]);
 
-   // cabiar el id del profesor de los alumnos al del gimnasio
-   if (respuesta[0].length > 0) {
-      await Alumno.updateMany({profesor: id}, {profesor: respuesta[1].gimnasio})
+      // cabiar el id del profesor de los alumnos al del gimnasio
+      if (respuesta[0].length > 0) {
+         await Alumno.updateMany({ profesor: id }, { profesor: respuesta[1].gimnasio })
+      }
+
+      const profesorBaja = await Profesor.findByIdAndRemove(id)
+
+      console.log(`Profesor Eliminado: ${profesorBaja.nombre} ${profesorBaja.apellido}`)
+
+      res.status(201).json({
+         msg: 'Profesor Eliminado',
+         Profesor: profesorBaja,
+      })
+   } catch (error) {
+      console.log('La peticion no se realizo en deleteProfesores en profesores.js:')
+      res.status(500).json({
+         msg: 'La peticion no se realizo'
+      })
    }
 
-   const profesorBaja = await Profesor.findByIdAndRemove(id)
-   
-   res.status(201).json({
-      msg: 'Profesor Eliminado',
-      Profesor: profesorBaja,
-   })
+
 }
 
 module.exports = {

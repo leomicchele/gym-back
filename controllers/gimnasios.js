@@ -35,17 +35,25 @@ async function createGimnasio(req, res) {
    gimnasioNuevo.password = hash;
    gimnasioNuevo.fechaCreacion = Date.now()
 
-   // Guardar el usuario nuevo en base de datos
-   await gimnasioNuevo.save()
-
-   // Regresa una respuesta al cliente
-   res.status(201).json({
-     msg: "Gimnasio Registrado",     
-     profesor_Resgistrado: {
-       nombre: gimnasioNuevo.nombre,
-       apellido: gimnasioNuevo.apellido
-     }
-   });
+   try {
+      // Guardar el usuario nuevo en base de datos
+      await gimnasioNuevo.save()
+      console.log(`Gimnasio Registrado: ${gimnasioNuevo.nombre} ${gimnasioNuevo.apellido}`)
+   
+      // Regresa una respuesta al cliente
+      res.status(201).json({
+        msg: "Gimnasio Registrado",     
+        profesor_Resgistrado: {
+          nombre: gimnasioNuevo.nombre,
+          apellido: gimnasioNuevo.apellido
+        }
+      });      
+   } catch (error) {
+      console.log('La peticion no se realizo en createGimnasio en gimnasios.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo'
+      })
+   }
 }
 
 // ACTUALIZAR USUARIO
@@ -54,16 +62,26 @@ async function updateGimnasio(req, res) {
    const id = req.params.id
    const {...resto} = req.body
 
-   // Actualiza todo menos email, google y password
-   const gimnasioUpdate = await Gimnasio.findOneAndUpdate({_id: id}, resto, {new: true})
+   try {
+      // Actualiza todo menos email, google y password
+      const gimnasioUpdate = await Gimnasio.findOneAndUpdate({_id: id}, resto, {new: true})
+      console.log(`Gimnasio actualizado: ${gimnasioUpdate.nombre} ${gimnasioUpdate.apellido}`)
+   
+      res.status(201).json({
+         msg: 'Gym  actualizado',
+         alumnoUpdate: {
+            nombre: gimnasioUpdate.nombre,
+            apellido: gimnasioUpdate.apellido,
+         }
+      })
+      
+   } catch (error) {
+      console.log('La peticion no se realizo en updateGimnasio en gimnasios.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
+   }
 
-   res.status(201).json({
-      msg: 'Profesor actualizado',
-      alumnoUpdate: {
-         nombre: gimnasioUpdate.nombre,
-         apellido: gimnasioUpdate.apellido,
-      }
-   })
 }
 
 // ELIMINAR USUARIO
@@ -71,12 +89,19 @@ async function deleteGimnasio(req, res) {
 
    const id = req.params.id
 
-   const profesorBaja = await Gimnasio.findByIdAndUpdate(id, {estado: false})
-   
-   res.status(201).json({
-      msg: 'Profesor dado de baja',
-      Profesor: profesorBaja,
-   })
+   try {
+      const profesorBaja = await Gimnasio.findByIdAndUpdate(id, {estado: false})
+      
+      res.status(201).json({
+         msg: 'Profesor dado de baja',
+         Profesor: profesorBaja,
+      })      
+   } catch (error) {
+      console.log('La peticion no se realizo en deleteGimnasio en gimnasios.js: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
+   }
 }
 
 module.exports = {

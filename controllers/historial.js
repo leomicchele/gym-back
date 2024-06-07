@@ -36,7 +36,10 @@ async function getHistorial(req, res) {
       })
 
    } catch (error) {
-      console.log('La peticion no se realizo')
+      console.log('La peticion no se realizo en getHistorial: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
    }  
 }
 
@@ -108,7 +111,7 @@ async function updateHistorial(req, res) {
       })
 
    } catch (error) {
-      console.log('La peticion no se realizo')
+      console.log('La peticion no se realizo en updateHistorial: ', error)
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })

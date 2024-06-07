@@ -22,7 +22,7 @@ async function getRutina(req, res) {
       })
 
    } catch (error) {
-      console.log('La peticion no se realizo')
+      console.log('La peticion no se realizo en getRutina en rutinas.js: ', error)
    }  
 }
 
