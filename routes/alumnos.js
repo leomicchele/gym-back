@@ -8,14 +8,18 @@ const { validarcampos } = require('../middlewares/validar-campos')
 
 // Funciones helpers
 const { verificarExistenciaIDAlumno } = require('../helpers/validaciones-custom')
-const { getAlumnos, createAlumnos, updateAlumnos, deleteAlumnos, getUsuario } = require('../controllers/alumnos');
+const { getAlumnos, createAlumnos, updateAlumnos, deleteAlumnos, getUsuario, getAlumno } = require('../controllers/alumnos');
 const { validarExistenciaAlumno } = require('../middlewares/validar-existencia-alumno');
 const { validarLimiteAlumnos } = require('../middlewares/validar-limiteAlumnos');
 
 
 // OBTENER USUARIOS
 routes.get('/', getAlumnos)
-// routes.get('/', getUsuario)
+routes.get('/:id',
+   check('id').isMongoId().withMessage('El ID debe ser valido'), 
+   check('id').custom( id => verificarExistenciaIDAlumno(id) ),
+   validarcampos // MiddleWare personalizado, recibe el error de los check()
+, getAlumno)
 
 // CREAR USUARIO
 routes.post('/', 

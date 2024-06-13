@@ -12,6 +12,24 @@ const AlumnoSchema = new Schema({
    objetivo: String,
    diasSemanales: String,
    deporte: String,
+   altura: {
+      type: String,
+      default: ''   
+   },
+   peso: {
+      type: String,
+      default: ''
+   },
+   grasaCorporal: {
+      type: String,
+      default: ''
+   },
+   // email: String,
+   // telefono: String,
+   // direccion: String,
+   // ciudad: String,
+   // codigoPostal: String,
+   // fechaNacimiento: String,
    caducacionRutina: String,
    profesor: {
       type: Schema.Types.ObjectId,

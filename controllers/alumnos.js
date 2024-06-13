@@ -191,6 +191,73 @@ async function deleteAlumnos(req, res) {
       res.status(500).json({ msg: 'Error interno del servidor' });
     }
 }
+
+//OBTENER ALUMNO
+async function getAlumno(req, res) {
+
+   const id = req.params.id; // es el id del alumno
+   let nombreProfesor;
+   
+
+   try {
+
+      let alumno = await Alumno.findOne({ _id: id })
+
+      if (!alumno) {
+         return res.status(400).json({
+            msg: 'No existe Alumno'
+         })         
+      }
+
+      if (alumno.profesor) {
+         const profesor = await Profesor.findOne({ _id: alumno.profesor })
+         if (!profesor) {
+            nombreProfesor = 'No tiene profesor'         
+         } else {
+            nombreProfesor = profesor.nombre + ' ' + profesor.apellido              
+         }         
+      }
+
+      if (alumno.gimnasio && !alumno.profesor) {
+         const gimnasio = await Gimnasio.findOne({ _id: alumno.gimnasio })
+         if (!gimnasio) {
+            nombreProfesor = 'No tiene gimnasio'         
+         } else {
+            nombreProfesor = gimnasio.nombre
+         }
+      }
+      
+      res.status(200).json({
+         Alumno: {
+            estado: alumno.estado,
+            altura: alumno.altura,
+            peso: alumno.peso,
+            grasaCorporal: alumno.grasaCorporal,
+            nombre: alumno.nombre,
+            apellido: alumno.apellido,
+            dni: alumno.dni,
+            experiencia: alumno.experiencia,
+            lesion: alumno.lesion,
+            patologia: alumno.patologia,
+            objetivo: alumno.objetivo,
+            diasSemanales: alumno.diasSemanales,
+            deporte: alumno.deporte,
+            edad: alumno.edad,
+            profesor: alumno.profesor,
+            gimnasio: alumno.gimnasio,            
+            nombreProfesor: nombreProfesor,
+            _id: alumno._id,
+         }
+      }
+      )
+
+   } catch (error) {
+      console.log('La peticion no se realizo en getAlumno: ', error)
+      res.status(500).json({
+         msg: 'La peticion no se realizo',
+      })
+   }  
+}
 // async function deleteAlumnos(req, res) {
 
 //    const id = req.params.id
@@ -207,6 +274,7 @@ module.exports = {
    getAlumnos,
    createAlumnos,
    updateAlumnos,
-   deleteAlumnos
+   deleteAlumnos,
+   getAlumno
 }
 
