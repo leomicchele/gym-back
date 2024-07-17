@@ -34,6 +34,11 @@ async function getAlumnos(req, res) {
          ]); 
       }
 
+      // Eliminar el campo "Password" de la respuesta
+      respuesta[1].forEach( alumno => {
+         alumno.password = undefined
+      })
+
       res.status(200).json({
          Total_Usuarios: respuesta[0],
          Usuarios: respuesta[1]
