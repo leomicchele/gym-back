@@ -55,11 +55,15 @@ async function getAlumnos(req, res) {
 // CREAR USUARIO
 async function createAlumnos(req, res) {
    const body = req.body
+   const fechaActualArgentina = Date.now() - (3 * 60 * 60 * 1000)
 
    try {      
       const alumnoNuevo = new Alumno(body);
       const rutinaNueva = new Rutina({
          caducacionRutina: '',
+         fechaActualizacionProfesor: fechaActualArgentina,
+         fechaActualizacionAlumno: fechaActualArgentina,
+         fechaCreacion: fechaActualArgentina,
          rutina: []   
       });
       const historialNuevo = new Historial({
@@ -101,7 +105,7 @@ async function createAlumnos(req, res) {
 
 // ACTUALIZAR USUARIO
 async function updateAlumnos(req, res) {
-
+   const fechaActualArgentina = Date.now() - (3 * 60 * 60 * 1000)
    const id = req.params.id
    const {...resto} = req.body
 
@@ -123,40 +127,61 @@ async function updateAlumnos(req, res) {
          await historialNuevo.save()
          resto.historialId = historialNuevo._id      
        }
+
       // Si no existe la rutinaId, Se crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
       if (!alumno.rutinaId) {
          const rutinaNueva = new Rutina({
             caducacionRutina: '',
+            fechaActualizacionProfesor: fechaActualArgentina,
+            fechaActualizacionAlumno: fechaActualArgentina,
             rutina: []   
          });
          await rutinaNueva.save()
          resto.rutinaId = rutinaNueva._id          
          await Rutina.findOneAndUpdate({_id: rutinaNueva._id }, {rutina: resto.rutina, caducacionRutina: resto.caducacionRutina}, {new: true})
-       } else {
+
+      } else { // Si existe la rutinaId, actualiza la rutina
+
          const rutinaId = req.body.rutinaId
-          // Actualiza Rutina
-          await Rutina.findOneAndUpdate({_id: rutinaId}, {rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina })}, {new: true})
+
+          // Verifica quien envio la peticion
+         if (req.body.profesor || req.body.gimnasio) { // Si envia la peticion el profesor o el gimnasio
+
+            await Rutina.findOneAndUpdate({ _id: rutinaId }, { rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina }), fechaActualizacionProfesor: fechaActualArgentina }, { new: true })
+
+         } else { // Si envia la peticion el alumno
+
+            // verifica si la fecha de actualizacion del profesor existe en la DB
+            const rutina = await Rutina.findOne({ _id: rutinaId })       
+            if (rutina.fechaActualizacionProfesor) {
+               // Verifica si la fecha de actualizacion del profesor es mayor a la fecha de descarga de la rutina
+               if (rutina.fechaActualizacionProfesor > rutina?.fechaDescargaRutina) {
+                  return res.status(400).json({
+                     msg: 'Actualiza la rutina, tienes una versión antigua'
+                  })              
+               } 
+            }
+            await Rutina.findOneAndUpdate({ _id: rutinaId }, { rutina: resto.rutina, ...(resto.caducacionRutina && { caducacionRutina: resto.caducacionRutina }), fechaActualizacionAlumno: fechaActualArgentina }, { new: true })
+         }
    
        }
 
       // Actualiza 
       const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
 
-      console.log(`Alumno Actualizado: ${alumnoUpdate.nombre} ${alumnoUpdate.apellido}`)
+      console.log(`Alumno Actualizado: ${alumnoUpdate.nombre} ${alumnoUpdate.apellido} por ${(req.body.profesor || req.body.gimnasio) ? 'PROFESOR' : 'ALUMNO'}`)
    
       res.status(201).json({
          msg: 'Alumno actualizado',
          alumnoUpdate: {
             nombre: alumnoUpdate.nombre,
-            apellido: alumnoUpdate.apellido,
-            // rutina: rutinaUpdate.rutina,
-            // caducacionRutina: rutinaUpdate.caducacionRutina
+            apellido: alumnoUpdate.apellido
          }
       })
    } catch (error) {
       console.log('La peticion no se realizo en updateAlumnos en alumnos.js: ', error)
       res.status(500).json({
-         msg: 'La peticion no se realizo',
+         msg: 'La peticion no se realizo, error en el servidor',
       })
    }
 

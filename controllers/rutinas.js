@@ -6,6 +6,8 @@ const Rutina = require('../models/rutina')
 async function getRutina(req, res) {
 
    const { id } = req.params;
+   const tipoUsuario = req.query?.tipoUsuario
+   const fechaActual = Date.now() - (3 * 60 * 60 * 1000)
 
    try {
 
@@ -16,9 +18,18 @@ async function getRutina(req, res) {
          })         
       }
 
+      // Guardar la fecha de descarga en la rutina
+      if (tipoUsuario === 'ALUMNO_ROL') {
+         respuesta.fechaDescargaRutina = fechaActual
+         await respuesta.save()
+      }      
+
       res.status(200).json({
          rutina: respuesta.rutina,
-         caducacionRutina: respuesta.caducacionRutina
+         caducacionRutina: respuesta.caducacionRutina,
+         fechaActualizacionProfesor: respuesta?.fechaActualizacionProfesor,
+         fechaActualizacionAlumno: respuesta?.fechaActualizacionAlumno,
+         fechaDescargaRutina: fechaActual
       })
 
    } catch (error) {
