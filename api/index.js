@@ -14,6 +14,7 @@ const routesProfesores = require('../routes/profesores')
 const routesGimnasios = require('../routes/gimnasios')
 const routesUploads = require('../routes/uploads')
 const routerViews = require('../routes/views')
+const routesNotion = require('../routes/notion')
 const { conectandoDB } = require('../db/config');
 const { socketController } = require('../controllers/socket');
 
@@ -47,6 +48,7 @@ app.use('/api/alumnos', routesAlumnos);
 app.use('/api/profesores', routesProfesores);
 app.use('/api/gimnasios', routesGimnasios);
 app.use('/api/uploads', routesUploads);
+app.use('/api/formulario', routesNotion);
 app.use('/home', routerViews)
 
 // Socket

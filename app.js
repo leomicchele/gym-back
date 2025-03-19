@@ -16,6 +16,7 @@ const routesRutina = require('./routes/rutina')
 const routesHistorial = require('./routes/historial')
 const routesUploads = require('./routes/uploads')
 const routerViews = require('./routes/views')
+const routesNotion = require('./routes/notion')
 const { conectandoDB } = require('./db/config');
 const { socketController } = require('./controllers/socket');
 
@@ -51,6 +52,7 @@ app.use('/api/gimnasios', routesGimnasios);
 app.use('/api/rutina', routesRutina);
 app.use('/api/historial', routesHistorial);
 app.use('/api/uploads', routesUploads);
+app.use('/api/formulario', routesNotion);
 app.use('/home', routerViews)
 
 // Socket
