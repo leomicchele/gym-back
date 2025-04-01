@@ -1,12 +1,13 @@
+require('dotenv').config();
 const { Client } = require('@notionhq/client');
 
-// Inicializar cliente de Notion con la API Key
+// Inicializar cliente de Notion con la API Key desde variables de entorno
 const notion = new Client({
-  auth: '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'
+  auth: process.env.NOTION_API_KEY
 });
 
-// ID de la base de datos de Notion
-const databaseId = '1bbe622e780180b9ad5fccc0044b52dc';
+// ID de la base de datos de Notion desde variables de entorno
+const databaseId = process.env.NOTION_DATABASE_ID;
 
 // Controlador para enviar datos de formulario a Notion
 const enviarFormularioNotion = async (req, res) => {
@@ -76,4 +77,4 @@ const enviarFormularioNotion = async (req, res) => {
 
 module.exports = {
   enviarFormularioNotion
-}; 
+};

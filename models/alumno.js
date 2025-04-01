@@ -57,6 +57,10 @@ const AlumnoSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Historial'
    },
+   pagosId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Pago'
+   },
    rutina: [],
    fechaCreacion: {
       type: Date

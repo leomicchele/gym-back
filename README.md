@@ -1,26 +1,71 @@
-# API RESTful - Panificadora
+# Gym-Back - Backend para Sistema de Gestión de Gimnasios
 
-Prototipo a una panificadora (Panadería al por mayor).
+## Descripción
+Backend completo para sistema de gestión de gimnasios con:
+- Autenticación JWT y Google OAuth
+- Gestión de alumnos, profesores, rutinas y gimnasios
+- API RESTful
+- WebSockets para chat en tiempo real
+- Subida de imágenes a Cloudinary
+- Integración con Notion API
 
-CRUD completo a diferentes endopoints, de Usuarios, Categorías, Productos y un sistema de búsquedas a través de la url. 
+## Tecnologías Principales
+- Node.js + Express
+- MongoDB + Mongoose
+- Socket.IO
+- Cloudinary
+- JWT
+- Google Auth
+- Handlebars (vistas básicas)
 
-Se puede consultar la documentación para el manejo de la API [Ver documentación](https://documenter.getpostman.com/view/15121639/U16dSocA)
+## Instalación
+1. Clonar repositorio
+2. Instalar dependencias:
+```bash
+npm install
+```
+3. Configurar variables de entorno (crear .env basado en .env.example)
 
-## Descripción 
-Contiene un Frontend para la creación y el login de usuarios, haciendo uso de las rutas de autentificación. También incorpora el ingreso con Google, adaptándose correctamente en el control de datos en el lado del servidor. Incorpora una carga de archivos, en donde las imágenes seran guardadas en Cloudinary. [Ir al sitio](https://rest-server-panificadora.herokuapp.com/) (El servidor esta alojado en Heroku, y se encuentra en modo suspensión, esperar 5 -10 seg si entra por primera vez)
+## Variables de Entorno
+```
+PORT=
+MONGODB_URI=
+CLOUDINARY_URL=
+GOOGLE_CLIENT_ID=
+JWT_SECRET=
+NOTION_API_KEY=
+NOTION_DATABASE_ID=
+```
 
-Una vez registrado y logueado el usuario, se le enviara un JWT (Json Web Token) al cliente para hacer uso de los diferentes métodos CRUD que se necesiten sobre las diferentes rutas. Los JWT tienen tiempo de caducidad, se renueva una vez vuelto a loguearse. Para continuar su uso se puede usar Postman, Insomnia, etc.
+## Estructura de Directorios
+```
+├── api/            # Endpoints API
+├── controllers/    # Lógica de controladores  
+├── db/             # Configuración de base de datos
+├── helpers/        # Utilidades (JWT, validaciones)
+├── middlewares/    # Middlewares
+├── models/         # Modelos de MongoDB
+├── public/         # Frontend principal
+├── public2/        # Frontend alternativo
+├── routes/         # Definición de rutas
+└── views/          # Vistas Handlebars
+```
 
-Usa una Base de datos de MongoDB en la nube.
+## Endpoints Principales
+- Auth: `/api/auth`
+- Usuarios: `/api/usuarios` 
+- Alumnos: `/api/alumnos`
+- Profesores: `/api/profesores`
+- Gimnasios: `/api/gimnasios`
+- Rutinas: `/api/rutinas`
+- Productos: `/api/productos`
+- Imágenes: `/api/uploads`
 
-Se hace manejo de errores y verificación del lado del servidor para validar los datos enviados desde el cliente.
+## Comandos
+```bash
+npm start    # Inicia producción
+npm run dev  # Inicia desarrollo con nodemon
+```
 
-Tiene un sistema de búsquedas a través de la url para consultar las diferentes categorías y productos
-
-## Instalación y uso
-
-Para comenzar a usar esta estructura basica de una Api-REST:
-
-1 - ``` npm install ``` 
-
-2 - Crear el archivo .env en la raiz del directorio
+## Licencia
+ISC

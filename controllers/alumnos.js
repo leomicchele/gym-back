@@ -5,6 +5,7 @@ const Profesor = require('../models/profesor');
 const Gimnasio = require('../models/gimnasio');
 const Rutina = require('../models/rutina');
 const Historial = require('../models/historial');
+const Pago = require('../models/pagos');
 
 async function getAlumnos(req, res) {
 
@@ -126,6 +127,17 @@ async function updateAlumnos(req, res) {
          });
          await historialNuevo.save()
          resto.historialId = historialNuevo._id      
+       }
+
+       // Si no existe el pagosId
+       if (!alumno.pagosId) {
+         const pagosNuevo = new Pago({
+            pagos: []   
+         });
+         await pagosNuevo.save()
+         resto.pagosId = pagosNuevo._id      
+       } else { // Si existe el pagosId, actualiza los pagos
+         await Pago.findOneAndUpdate({_id: alumno.pagosId }, {pagos: resto.pagos}, {new: true})
        }
 
       // Si no existe la rutinaId, Se crea (Temporal hasta que se cree el historial en la DB de alumnos viejos)
