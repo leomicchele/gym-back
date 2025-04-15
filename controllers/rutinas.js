@@ -1,5 +1,6 @@
 
-const Rutina = require('../models/rutina')
+const Rutina = require('../models/rutina');
+const logEvent = require('../utils/logger');
 
 
 // OBTENER Rutinas
@@ -13,6 +14,13 @@ async function getRutina(req, res) {
 
       const respuesta = await Rutina.findOne({ _id: id })
       if (!respuesta) {
+         logEvent({
+            message: `No existe rutina`,
+            action: 'Get Rutina',
+            level: 'error',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: { }
+         });
          return res.status(400).json({
             msg: 'No existe rutina'
          })         
@@ -24,6 +32,13 @@ async function getRutina(req, res) {
          await respuesta.save()
       }      
 
+      logEvent({
+         message: `Se llamo a getRutina`,
+         action: 'Get Rutina',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
+
       res.status(200).json({
          rutina: respuesta.rutina,
          caducacionRutina: respuesta.caducacionRutina,
@@ -34,6 +49,13 @@ async function getRutina(req, res) {
 
    } catch (error) {
       console.log('La peticion no se realizo en getRutina en rutinas.js: ', error)
+      logEvent({
+         message: `Error al obtener la rutina`,
+         action: 'Get Rutina',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
    }  
 }
 

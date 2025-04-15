@@ -43,4 +43,8 @@ routes.delete('/:id',
 , deleteGimnasio)
 
 
+// OBTENER GIMNASIOS
+// routes.get('/', getGimnasios)
+
+
 module.exports = routes

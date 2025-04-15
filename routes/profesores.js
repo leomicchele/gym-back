@@ -8,14 +8,14 @@ const { validarcampos } = require('../middlewares/validar-campos')
 
 // Funciones helpers
 const { verificarEmailRegitroProfesor, verificarExistenciaID, verificarExistenciaIDProfesor } = require('../helpers/validaciones-custom')
-const { getProfesores, createProfesores, updateProfesores, deleteProfesores } = require('../controllers/profesores');
+const { getProfesores, createProfesores, updateProfesores, deleteProfesores, getAllProfesores, getAlumnosProfesor } = require('../controllers/profesores');
 const { validarExistenciaProfesor } = require('../middlewares/validar-existencia-profesor');
 
 
-// OBTENER USUARIOS
+// OBTENER PROFESORES
 routes.get('/', getProfesores)
 
-// CREAR USUARIO
+// CREAR PROFESOR
 routes.post('/', 
    check('nombre').notEmpty().withMessage('El nombre no debe venir vacio'),      
    check('apellido').notEmpty().withMessage('El nombre no debe venir vacio'),      
@@ -27,7 +27,7 @@ routes.post('/',
    validarExistenciaProfesor // MiddleWare personalizado
 , createProfesores)
 
-// ACTUALIZAR USUARIO
+// ACTUALIZAR PROFESOR
 routes.put('/:id',
    check('id').isMongoId().withMessage('El ID debe ser valido'), 
    check('id').custom( id => verificarExistenciaIDProfesor(id) ),
@@ -35,7 +35,7 @@ routes.put('/:id',
 , updateProfesores)
 
 
-// DAR DE BAJA USUARIO
+// DAR DE BAJA PROFESOR
 routes.delete('/:id',
    validarJWT, // MiddleWare personalizado
    validarRoles, // MiddleWare personalizado
@@ -43,6 +43,18 @@ routes.delete('/:id',
    check('id').custom( id => verificarExistenciaIDProfesor(id) ),
    validarcampos // MiddleWare personalizado (recibe los errores de los "chech()")
 , deleteProfesores)
+
+// OBTENER TODOS LOS PROFESORES
+routes.get('/all-profesores', 
+   validarJWT,
+   validarRoles,
+   getAllProfesores)
+
+// OBTENER LOS ALUMNOS DE UN PROFESOR
+routes.get('/all-profesores/:id',
+   validarJWT,
+   validarRoles,
+   getAlumnosProfesor)
 
 
 module.exports = routes

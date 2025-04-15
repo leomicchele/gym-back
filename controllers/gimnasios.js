@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt');
 
 const Gimnasio = require('../models/gimnasio')
+const logEvent = require('../utils/logger');
 
 
-// OBTENER USUARIOS
+
+// OBTENER GIMNASIOS
 async function getGimnasios(req, res) {
 
    const { limite, desde } = req.query;
@@ -14,6 +16,12 @@ async function getGimnasios(req, res) {
          Gimnasio.find().skip(Number(desde)).limit(Number(limite)) // Trae a los que estan dado de alta
       ]);
 
+      logEvent({
+         message: `Se llamo a getGimnasios`,
+         action: 'Get Gimnasios',
+         metadata: {  }
+      });
+
       res.status(200).json({
          Total_Gimnasios: respuesta[0],
          Usuarios: respuesta[1]
@@ -21,6 +29,12 @@ async function getGimnasios(req, res) {
 
    } catch (error) {
       console.log('La peticion no se realizo')
+      logEvent({
+         message: `Error al obtener los gimnasios`,
+         action: 'Get Gimnasios',
+         level: 'error',
+         metadata: { error: error }
+      });
    }  
 }
 
@@ -39,6 +53,11 @@ async function createGimnasio(req, res) {
       // Guardar el usuario nuevo en base de datos
       await gimnasioNuevo.save()
       console.log(`Gimnasio Registrado: ${gimnasioNuevo.nombre} ${gimnasioNuevo.apellido}`)
+      logEvent({
+         message: `Gimnasio Registrado: ${gimnasioNuevo.nombre} ${gimnasioNuevo.apellido}`,
+         action: 'Create Gimnasio',
+         metadata: {  }
+      });
    
       // Regresa una respuesta al cliente
       res.status(201).json({
@@ -50,6 +69,12 @@ async function createGimnasio(req, res) {
       });      
    } catch (error) {
       console.log('La peticion no se realizo en createGimnasio en gimnasios.js: ', error)
+      logEvent({
+         message: `Error al registrar el gimnasio`,
+         action: 'Create Gimnasio',
+         level: 'error',
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo'
       })
@@ -66,7 +91,13 @@ async function updateGimnasio(req, res) {
       // Actualiza todo menos email, google y password
       const gimnasioUpdate = await Gimnasio.findOneAndUpdate({_id: id}, resto, {new: true})
       console.log(`Gimnasio actualizado: ${gimnasioUpdate.nombre} ${gimnasioUpdate.apellido}`)
-   
+      logEvent({
+         message: `Gimnasio actualizado: ${gimnasioUpdate.nombre} ${gimnasioUpdate.apellido}`,
+         action: 'Update Gimnasio',
+         metadata: {  }
+      });
+      
+
       res.status(201).json({
          msg: 'Gym  actualizado',
          alumnoUpdate: {
@@ -77,6 +108,12 @@ async function updateGimnasio(req, res) {
       
    } catch (error) {
       console.log('La peticion no se realizo en updateGimnasio en gimnasios.js: ', error)
+      logEvent({
+         message: `Error al actualizar el gimnasio`,
+         action: 'Update Gimnasio',
+         level: 'error',
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })
@@ -92,12 +129,24 @@ async function deleteGimnasio(req, res) {
    try {
       const profesorBaja = await Gimnasio.findByIdAndUpdate(id, {estado: false})
       
+      logEvent({
+         message: `Gimnasio dado de baja: ${profesorBaja.nombre} ${profesorBaja.apellido}`,
+         action: 'Delete Gimnasio',
+         metadata: {  }
+      });
+      
       res.status(201).json({
          msg: 'Profesor dado de baja',
          Profesor: profesorBaja,
       })      
    } catch (error) {
       console.log('La peticion no se realizo en deleteGimnasio en gimnasios.js: ', error)
+      logEvent({
+         message: `Error al eliminar el gimnasio`,
+         action: 'Delete Gimnasio',
+         level: 'error',
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })

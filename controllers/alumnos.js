@@ -6,6 +6,8 @@ const Gimnasio = require('../models/gimnasio');
 const Rutina = require('../models/rutina');
 const Historial = require('../models/historial');
 const Pago = require('../models/pagos');
+const logEvent = require('../utils/logger');
+
 
 async function getAlumnos(req, res) {
 
@@ -40,16 +42,29 @@ async function getAlumnos(req, res) {
          alumno.password = undefined
       })
 
+      logEvent({
+         message: `Se llamo a getAlumnos`,
+         action: 'Get Alumnos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
+
       res.status(200).json({
          Total_Usuarios: respuesta[0],
          Usuarios: respuesta[1]
       })
 
    } catch (error) {
+      logEvent({
+         message: `Error al obtener los alumnos`,
+         action: 'Get Alumnos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })
-      console.log('La peticion no se realizo  en getAlumnos en alumnos.js: ', error)
    }  
 }
 
@@ -86,6 +101,12 @@ async function createAlumnos(req, res) {
       await alumnoNuevo.save()
 
       console.log(`Alumno Creado: ${alumnoNuevo.nombre} ${alumnoNuevo.apellido}`)
+      logEvent({
+         message: `Alumno Creado: ${alumnoNuevo.nombre} ${alumnoNuevo.apellido}`,
+         action: 'Create Alumnos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
    
       // Regresa una respuesta al cliente
       res.status(201).json({
@@ -97,6 +118,13 @@ async function createAlumnos(req, res) {
       });
    } catch (error) {
       console.log('La peticion no se realizo en createAlumnos en alumnos.js: ', error)
+      logEvent({
+         message: `Error al crear el alumno`,
+         action: 'Create Alumnos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })
@@ -182,6 +210,12 @@ async function updateAlumnos(req, res) {
       const alumnoUpdate = await Alumno.findOneAndUpdate({_id: id}, {...resto, rutina: []}, {new: true})
 
       console.log(`Alumno Actualizado: ${alumnoUpdate.nombre} ${alumnoUpdate.apellido} por ${(req.body.profesor || req.body.gimnasio) ? 'PROFESOR' : 'ALUMNO'}`)
+      logEvent({
+         message: `Alumno Actualizado: ${alumnoUpdate.nombre} ${alumnoUpdate.apellido} por ${(req.body.profesor || req.body.gimnasio) ? 'PROFESOR' : 'ALUMNO'}`,
+         action: 'Update Alumnos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
    
       res.status(201).json({
          msg: 'Alumno actualizado',
@@ -192,6 +226,13 @@ async function updateAlumnos(req, res) {
       })
    } catch (error) {
       console.log('La peticion no se realizo en updateAlumnos en alumnos.js: ', error)
+      logEvent({
+         message: `Error al actualizar el alumno`,
+         action: 'Update Alumnos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo, error en el servidor',
       })
@@ -223,6 +264,13 @@ async function deleteAlumnos(req, res) {
   
       // Eliminar el alumno (usuario)
       await Alumno.findByIdAndRemove(alumnoId);
+
+      logEvent({
+         message: `Alumno Eliminado: ${alumno.nombre} ${alumno.apellido}`,
+         action: 'Delete Alumnos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
   
       res.status(201).json({
         msg: 'Usuario Eliminado',
@@ -230,6 +278,13 @@ async function deleteAlumnos(req, res) {
       });
     } catch (error) {
       console.error('Error al eliminar usuario y referencias:', error);
+      logEvent({
+         message: `Error al eliminar el alumno`,
+         action: 'Delete Alumnos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({ msg: 'Error interno del servidor' });
     }
 }
@@ -269,6 +324,13 @@ async function getAlumno(req, res) {
          }
       }
       
+      logEvent({
+         message: `Se llamo a getAlumno`,
+         action: 'Get Alumno',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
+
       res.status(200).json({
          Alumno: {
             estado: alumno.estado,
@@ -295,6 +357,13 @@ async function getAlumno(req, res) {
 
    } catch (error) {
       console.log('La peticion no se realizo en getAlumno: ', error)
+      logEvent({
+         message: `Error al obtener el alumno`,
+         action: 'Get Alumno',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })

@@ -1,5 +1,6 @@
 
 const Alumno = require('../models/alumno');
+const logEvent = require('../utils/logger');
 const Pago = require('../models/pagos');
 
 
@@ -12,6 +13,13 @@ async function getPagos(req, res) {
 
       const alumno = await Alumno.findOne({ _id: id })
       if (!alumno) {
+         logEvent({
+            message: `No existe Alumno`,
+            action: 'Get Pagos',
+            level: 'error',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: { }
+         });
          return res.status(400).json({
             msg: 'No existe Alumno'
          })         
@@ -31,12 +39,26 @@ async function getPagos(req, res) {
 
       let respuestapagos = await Pago.findOne({ _id: alumno.pagosId })
 
+      logEvent({
+         message: `Se llamo a getPagos`,
+         action: 'Get Pagos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });   
+
       res.status(200).json({
          pagos: respuestapagos.pagos
       })
 
    } catch (error) {
-      console.log('La peticion no se realizo en getHistorial: ', error)
+      console.log('La peticion no se realizo en getPagos: ', error)
+      logEvent({
+         message: `Error al obtener los pagos`,
+         action: 'Get Pagos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })
@@ -55,6 +77,13 @@ async function updatePagos(req, res) {
       // find alumno
       const alumno = await Alumno.findOne({ _id: id })
       if (!alumno) {
+         logEvent({
+            message: `No existe Alumno`,
+            action: 'Update Pagos',
+            level: 'error',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: { }
+         });
          return res.status(400).json({
             msg: 'No existe Alumno'
          })
@@ -84,12 +113,26 @@ async function updatePagos(req, res) {
       // actualiza historial
       await Pago.findOneAndUpdate({ _id: alumno.pagosId }, { pagos: pagosActual.pagos }, { new: true })
 
+      logEvent({
+         message: `Pagos actualizados`,
+         action: 'Update Pagos',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: {  }
+      });
+
       res.status(201).json({
          msg: 'Pagos actualizado'
       })
 
    } catch (error) {
       console.log('La peticion no se realizo en updatePagos: ', error)
+      logEvent({
+         message: `Error al actualizar los pagos`,
+         action: 'Update Pagos',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       res.status(500).json({
          msg: 'La peticion no se realizo',
       })

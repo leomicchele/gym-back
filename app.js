@@ -19,9 +19,9 @@ const routerViews = require('./routes/views')
 const routesNotion = require('./routes/notion')
 const routesImages = require('./routes/images')
 const routesPagos = require('./routes/pagos')
+const routesLogs = require('./routes/logs')
 const { conectandoDB } = require('./db/config');
 const { socketController } = require('./controllers/socket');
-
 // Variables y Server
 const app    = express();
 const server = require('http').Server(app); // Creamos servidor http 
@@ -58,6 +58,7 @@ app.use('/api/formulario', routesNotion);
 app.use('/api/images', routesImages);
 app.use('/api/pagos', routesPagos);
 app.use('/home', routerViews)
+app.use('/api/logs', routesLogs)
 
 // Socket
 // io.on('connection', socketController)

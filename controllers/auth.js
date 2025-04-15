@@ -5,6 +5,8 @@ const verificacionGoogle = require('../helpers/verificacion-google');
 const Alumno = require('../models/alumno');
 const Profesor = require('../models/profesor');
 const Gimnasio = require('../models/gimnasio');
+const logEvent = require('../utils/logger');
+
 
 // LOGIN TRADICIONAL
 async function login(req, res) {
@@ -72,6 +74,12 @@ async function login(req, res) {
    
      if (usuario.rol === 'PROFESOR_ROL') {
          console.log('PROFESOR LOGUEADO', usuario.nombre)
+         logEvent({
+            message: `Profesor logueado: ${usuario.nombre}`,
+            action: 'Login Profesor',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: {  }
+         });
         // Enviar respuesta al cliente
         res.json({
            msg: 'Usuario logiado',
@@ -83,6 +91,12 @@ async function login(req, res) {
         })
       } else if(usuario.rol === 'ALUMNO_ROL') {
          console.log('ALUMNO LOGUEADO', usuario.nombre)
+         logEvent({
+            message: `Alumno logueado: ${usuario.nombre}`,
+            action: 'Login Alumno',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: {  }
+         });
 
         res.json({
            msg: 'Usuario logiado',
@@ -96,6 +110,12 @@ async function login(req, res) {
         })
      } else if(usuario.rol === 'GYM_ROL') {
          console.log('GYM LOGUEADO', usuario.nombre)
+         logEvent({
+            message: `Gimnasio logueado: ${usuario.nombre}`,
+            action: 'Login Gimnasio',
+            // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+            metadata: {  }
+         });
          res.json({
             msg: 'Usuario logiado',
             token: token,
@@ -106,6 +126,13 @@ async function login(req, res) {
      }
    } catch (error) {
       console.info("Error login", error)
+      logEvent({
+         message: `Error al iniciar sesion`,
+         action: 'Login',
+         level: 'error',
+         // user: req.user._id || 'No se pudo obtener el usuario', // asumiendo que tenés auth
+         metadata: { error: error }
+      });
       return res.status(400).json({
          msg: 'Problema con el Login'
       })
